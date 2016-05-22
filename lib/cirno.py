@@ -26,6 +26,7 @@ class Cirno(BaseNamespace):
         self.userlist = {}
         self.afklist = {}
         self.triggers = {}
+        self.what = 'http://tehtube.tv/img/neponyala.jpg'
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
 
@@ -68,7 +69,10 @@ class Cirno(BaseNamespace):
         args = ' '.join("%s" % x for x in splice).strip()
         method = commandslist['commands'].get(command, None)
         if method:
-            return method(cirno, username, args)
+            try:
+                return method(cirno, username, args)
+            except:
+                cirno.sendmsg(username + cirno.what)
         else:
             return
 

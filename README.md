@@ -33,6 +33,6 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 
 Require rank:
 <li><code>!poll [title]</code> - Open an obscured poll to rate a title.
-<li><code>!alert [username]</code> - Print list of AFK users.
-<li><code>!schedule [username]</code> - Add shedule to the end of playlist. Requires Requires <a href='https://console.developers.google.com/project'>OAuth2<a>
+<li><code>!alert</code> - Print list of AFK users.
+<li><code>!schedule</code> - Add shedule to the end of playlist. Requires Requires <a href='https://console.developers.google.com/project'>OAuth2<a>
 

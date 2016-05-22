@@ -101,13 +101,13 @@ class Cirno(BaseNamespace):
             return
         count = data['counts']
         title = data['title'].replace('Ставим оценку ', '')
-        if str(count[0]).isdigit() in count:
+        if '?' in str(count[0]):
+            return
+        else:
             count.insert(0, 0)
             q = [count[i] * i for i in range(len(count))]
             rating = float(sum(q[2:])) / sum(count[2:])
             self.sendmsg('Оценка {}: {}'.format(title, rating))
-        else:
-            return
 
     def on_userlist(self, data):
         for i in data:

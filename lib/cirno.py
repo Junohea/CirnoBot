@@ -103,8 +103,8 @@ class Cirno(BaseNamespace):
         title = data['title'].replace('Ставим оценку ', '')
         if str(count[0]).isdigit() in count:
             count.insert(0, 0)
-            q = [int(count[i]) * i for i in range(len(count))]
-            rating = float(sum(q)) / sum(count)
+            q = [count[i] * i for i in range(len(count))]
+            rating = float(sum(q[2:])) / sum(count[2:])
             self.sendmsg('Оценка {}: {}'.format(title, rating))
         else:
             return

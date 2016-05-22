@@ -1,0 +1,7 @@
+*.pyc
+*.xml
+*.iml
+*.json
+*.db
+config.cfg
+conf.py

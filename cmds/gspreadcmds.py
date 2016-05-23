@@ -35,10 +35,8 @@ class Gspread(object):
                 sleep(1)
                 x = parsemedialink(vid)
                 cirno.addvideo(None, None, duration, temp, pos, x)
-                return
             else:
                 pass
-
 
 
 def setup():

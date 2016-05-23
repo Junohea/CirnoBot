@@ -46,9 +46,9 @@ class Weather(object):
         city = data[0]
         forecast = self.forecast(city)
         today = self.weatherdata(city)
-        tomorrow = 'Погода в городе ' + city + \
+        tomorrow = 'Погода в городе ' + city.capitalize() + \
                    ' на завтра: ' + forecast[0] + '°C'
-        aftertomorrow = 'Погода в городе ' + city + \
+        aftertomorrow = 'Погода в городе ' + city.capitalize() + \
                         ' на послезавтра: ' + forecast[1] + '°C'
 
         if today and len(data) < 2:

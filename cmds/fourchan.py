@@ -20,7 +20,7 @@ class Fourchan(object):
             threads = requests.get(threadlist).json()
             n = randint(0, 10)
             for i in threads:
-                return str(i["threads"][n]["no"]).split()
+                return ("%s" % (i["threads"][n]["no"])).split()
 
     def get4chanpics(self, board):
         threads = self.get4chanthreads(board)

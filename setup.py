@@ -2,7 +2,7 @@ from distutils.core import setup
 
 setup(
     name='CirnoBot',
-    version='1.0.0',
+    version='1.0.1',
     packages=['lib', 'cmds'],
     url='http://tehtube.tv/',
     license='None',

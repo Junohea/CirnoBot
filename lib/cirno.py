@@ -62,20 +62,6 @@ class Cirno(BaseNamespace):
 
         self.db.insertchat(timestamp, username, msg)
 
-    def handle(self, cirno, username, msg):
-        commandslist = self.loadplugins()
-        splice = msg.split(' ')
-        command = splice.pop(0)[1:]
-        args = ' '.join("%s" % x for x in splice).strip()
-        method = commandslist['commands'].get(command, None)
-        if method:
-            try:
-                return method(cirno, username, args)
-            except:
-                cirno.sendmsg(username + cirno.what)
-        else:
-            return
-
     def on_pm(self, data):
         username = data['username']
         msg = data['msg']
@@ -101,7 +87,7 @@ class Cirno(BaseNamespace):
             return
         count = data['counts']
         title = data['title'].replace('Ставим оценку ', '')
-        if '?' in str(count[0]) or sum(count) == 0:
+        if '?' in "%s" % count[0] or sum(count) == 0:
             return
         else:
             count.insert(0, 0)
@@ -109,7 +95,7 @@ class Cirno(BaseNamespace):
             if sum(q) == 1:
                 return
             rating = float(sum(q[2:])) / sum(count[2:])
-            self.sendmsg('Оценка {}: {}'.format(title, rating))
+            self.sendmsg('Оценка {}: {}'.format(title, round(rating, 2)))
 
     def on_userlist(self, data):
         for i in data:
@@ -166,3 +152,17 @@ class Cirno(BaseNamespace):
                 "temp": temp
             }
             self.emit("queue", json)
+
+    def handle(self, cirno, username, msg):
+        commandslist = self.loadplugins()
+        splice = msg.split(' ')
+        command = splice.pop(0)[1:]
+        args = ' '.join("%s" % x for x in splice).strip()
+        method = commandslist['commands'].get(command, None)
+        if method:
+            try:
+                return method(cirno, username, args)
+            except:
+                cirno.sendmsg(username + cirno.what)
+        else:
+            return

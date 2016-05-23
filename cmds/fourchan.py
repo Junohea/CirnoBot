@@ -39,9 +39,7 @@ class Fourchan(object):
             return 'Ничего не найдено!'
 
     def _cmd_4chan(self, cirno, username, args):
-        adults = {'b', 's', 'hc', 'hm', 'h', 'e', 'u',
-                  'd', 'y', 't', 'hr', 'gif', 'aco', 'r'}
-        if not args or args in adults:
+        if not args or args in cirno.disallowed4ch:
             cirno.sendmsg(username + ': Доска отсутствует, либо запрещена.')
         else:
             randpic = self.get4chanpics(args)

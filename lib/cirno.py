@@ -29,6 +29,8 @@ class Cirno(BaseNamespace):
         self.what = ': http://tehtube.tv/img/neponyala.jpg'
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
+        self.disallowed2ch = config['API']['disallow_2ch_boards'].split()
+        self.disallowed4ch = config['API']['disallow_4chan_boards'].split()
 
     def loadplugins(self):
         modules = importplugins('cmds/')

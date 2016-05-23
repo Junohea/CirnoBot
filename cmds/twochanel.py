@@ -51,8 +51,7 @@ class Twochannel(object):
             return 'Ничего не найдено!'
 
     def _cmd_2ch(self, cirno, username, args):
-        adults = {'ya', 'r34', 'b', 'd', 'soc', 'fd'}
-        if not args or args in adults:
+        if not args or args in cirno.disallowed2ch:
             cirno.sendmsg(username + ': Доска отсутствует, либо запрещена.')
         else:
             randpic = self.get2chpic(args)

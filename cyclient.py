@@ -22,5 +22,9 @@ class Connections(object):
             socketIO.wait()
 
 
-cirno = Connections()
-cirno.cirnoconnect()
+def start():
+    cirno = Connections()
+    cirno.cirnoconnect()
+
+if __name__ == '__main__':
+    start()

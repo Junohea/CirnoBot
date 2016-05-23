@@ -30,6 +30,7 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 <li><code>!random [username]</code> - Fetches a quote from the user given, otherwise fetches a random quote.
 <li><code>!stat [username]</code> - Quantity of chat messages by username.
 <li><code>!hit [username]</code> - Hit username.
+<li><code>!google [query]</code> - Sends results from the Google Web Search.
 
 Require rank:
 <li><code>!poll [title]</code> - Open an obscured poll to rate a title.

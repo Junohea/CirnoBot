@@ -26,7 +26,7 @@ class Cirno(BaseNamespace):
         self.userlist = {}
         self.afklist = {}
         self.triggers = {}
-        self.what = 'http://tehtube.tv/img/neponyala.jpg'
+        self.what = ': http://tehtube.tv/img/neponyala.jpg'
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
 

@@ -16,28 +16,37 @@ class Googspread(object):
         self.schedule = gc.open_by_key(spreadsheet_schedule)
         self.base_sheet = self.base.get_worksheet(2)
         self.shedule_sheet = self.schedule.get_worksheet(0)
+        self.anime_list = self.base_sheet.col_values(1)
 
     def extenddata(self, data):
         cut = data.split('|')
         title = cut[0].rstrip()
-        if len(cut) > 1:
+        if len(cut) > 1 and '-' not in cut[1]:
             series = cut[1].split(',')
-            return title, series
+            data = title, series
+            result = self.seriesdb(data)
+            return result
+        elif len(cut) > 1:
+            series = cut[1].split('-')
+            if len(series) == 2:
+                data = title, series
+                result = self.rangedb(data)
+                return result
         else:
-            return title
+            return self.getallseries(title)
 
-    def frombase(self, data):
-        data = self.extenddata(data)
-        anime_list = self.base_sheet.col_values(1)
-        if type(data) is str and data in anime_list:
-            pos = anime_list.index(data)
+    def getallseries(self, data):
+        if data in self.anime_list:
+            pos = self.anime_list.index(data)
             series_list = self.base_sheet.row_values(pos + 1)
             result = [ser for ser in series_list[2:] if ser]
             return result
-        elif type(data) is tuple and data[0] in anime_list:
+
+    def seriesdb(self, data):
+        if data[0] in self.anime_list:
             title = data[0]
             series = data[1]
-            pos = anime_list.index(title)
+            pos = self.anime_list.index(title)
             row = self.base_sheet.row_values(pos + 1)
             series_list = row[2:]
             serv = [int(i) for i in series]
@@ -45,6 +54,18 @@ class Googspread(object):
             return result
         else:
             return
+
+    def rangedb(self, data):
+        if data[0] in self.anime_list:
+            title = data[0]
+            serrange = data[1]
+            start = int(serrange[0])
+            end = int(serrange[1])
+            pos = self.anime_list.index(title)
+            row = self.base_sheet.row_values(pos + 1)
+            series_list = row[2:]
+            result = [ser for ser in series_list[start-1:end] if ser]
+            return result
 
     def datashedule(self):
         now = datetime.now()

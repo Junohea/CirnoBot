@@ -11,7 +11,7 @@ class Gspread(object):
             cirno.sendmsg(username + ': Укажите название'
                                      ' и серии (опционально).')
         else:
-            titles = self.gs.frombase(data)
+            titles = self.gs.extenddata(data)
             pos = 'end'
             temp = True
             duration = 0
@@ -21,7 +21,7 @@ class Gspread(object):
                     x = parsemedialink(title)
                     cirno.addvideo(None, None, duration, temp, pos, x)
             else:
-                cirno.sendmsg('Ничего не нашла! Попробуй '
+                cirno.sendmsg(username + ': Ничего не нашла! Попробуй '
                               'посмотреть доступные тайтлы в хранилище.')
 
     @checkrank(2)

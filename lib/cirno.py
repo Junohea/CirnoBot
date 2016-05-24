@@ -40,7 +40,7 @@ class Cirno(BaseNamespace):
             for method in dir(instance):
                 if method.startswith('_cmd_'):
                     trigger = '%s' % method[5:]
-                    self.triggers['commands'][trigger]\
+                    self.triggers['commands'][trigger] \
                         = getattr(instance, method)
         return self.triggers
 
@@ -93,11 +93,15 @@ class Cirno(BaseNamespace):
             return
         else:
             count.insert(0, 0)
-            q = [count[i] * i for i in range(len(count))]
+            q = [i * p for i, p in enumerate(count)]
+            numvotes = '+'.join(["%s*%d" % (i, j) for i, j
+                                 in enumerate(count) if
+                                 j != 0 and i not in [0, 1]])
             if sum(q) == 1:
                 return
             rating = float(sum(q[2:])) / sum(count[2:])
-            self.sendmsg('Оценка {}: {}'.format(title, round(rating, 2)))
+            self.sendmsg('Оценка %s: %s (%s)'
+                         % (title, round(rating, 2), numvotes))
 
     def on_userlist(self, data):
         for i in data:

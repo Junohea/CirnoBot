@@ -18,9 +18,9 @@ class Fourchan(object):
         resboards = self.fourchanboards()
         if board in resboards and resboards:
             threads = requests.get(threadlist).json()
-            n = randint(0, 10)
-            for i in threads:
-                return ("%s" % (i["threads"][n]["no"])).split()
+            req = [x['threads'] for x in threads]
+            result = [x['no'] for x in sum(req, []) if x]
+            return result
 
     def get4chanpics(self, board):
         threads = self.get4chanthreads(board)

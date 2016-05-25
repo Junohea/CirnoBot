@@ -7,7 +7,7 @@ class Addvideo(object):
 
     def _cmd_add(self, cirno, username, data):
         if not data:
-            cirno.sendmsg(username + ': Укажите как минимум один ролик.')
+            cirno.sendmsg('%s: Укажите как минимум один ролик.' % username)
         else:
             pos = 'end'
             temp = True

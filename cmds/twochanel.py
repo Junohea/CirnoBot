@@ -18,7 +18,7 @@ class Twochannel(object):
         return result
 
     def managethreads(self, board):
-        inboard = 'https://2ch.hk/' + board + '/index.json'
+        inboard = 'https://2ch.hk/%s/index.json' % board
         if board in self.boardlist():
             threads = requests.get(inboard).json()['threads']
             result = [i['thread_num'] for i in threads]
@@ -27,8 +27,8 @@ class Twochannel(object):
     def serfthread(self, board):
         try:
             threadnum = self.managethreads(board)
-            inthread = 'https://2ch.hk/' + board + \
-                       '/res/' + choice(threadnum) + '.json'
+            inthread = 'https://2ch.hk/%s/res/%s.json' \
+                       % (board, choice(threadnum))
             getthread = requests.get(inthread).json()['threads'][0]['posts']
         except Exception:
             return
@@ -39,9 +39,9 @@ class Twochannel(object):
             return
         try:
             inthread = self.serfthread(board)
-            result = [('https://2ch.hk/' +
-                       board + '/' + i['files'][0]['path']) for i
-                      in inthread if len(i['files']) != 0 and
+            result = ['https://2ch.hk/%s/%s' %
+                      (board, i['files'][0]['path']) for
+                      i in inthread if len(i['files']) != 0 and
                       i['files'][0]['type'] in [1, 2]]
         except Exception:
             return
@@ -52,11 +52,11 @@ class Twochannel(object):
 
     def _cmd_2ch(self, cirno, username, args):
         if not args or args in cirno.disallowed2ch:
-            cirno.sendmsg(username + ': Доска отсутствует, либо запрещена.')
+            cirno.sendmsg('%s: Доска отсутствует, либо запрещена.' % username)
         else:
             randpic = self.get2chpic(args)
             if randpic:
-                cirno.sendmsg(username + ': ' + randpic)
+                cirno.sendmsg('%s: %s' % (username, randpic))
 
 
 def setup():

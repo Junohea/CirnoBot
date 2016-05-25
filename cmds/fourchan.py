@@ -1,5 +1,5 @@
 import requests
-from random import choice, randint
+from random import choice
 
 
 class Fourchan(object):
@@ -14,7 +14,7 @@ class Fourchan(object):
         return resboards
 
     def get4chanthreads(self, board):
-        threadlist = 'https://a.4cdn.org/' + board + '/threads.json'
+        threadlist = 'https://a.4cdn.org/%s/threads.json' % board
         resboards = self.fourchanboards()
         if board in resboards and resboards:
             threads = requests.get(threadlist).json()
@@ -24,13 +24,13 @@ class Fourchan(object):
 
     def get4chanpics(self, board):
         threads = self.get4chanthreads(board)
-        inthread = "https://a.4cdn.org/" + board + "/thread/{0}.json"
-        main = 'https://i.4cdn.org/' + board + "/"
+        inthread = 'https://a.4cdn.org/%s/thread/{0}.json' % board
+        main = 'https://i.4cdn.org/%s/' % board
         if threads is None:
             return
-        posts = requests.get(inthread.format(choice(threads))).json()["posts"]
+        posts = requests.get(inthread.format(choice(threads))).json()['posts']
         allowext = {'.jpg', '.png', '.gif'}
-        result = ["%s%s%s" % (main, post['tim'], post['ext']) for post in posts
+        result = ['%s%s%s' % (main, post['tim'], post['ext']) for post in posts
                   if ('filename' in post) and
                   (post.get('ext', None) in allowext)]
         if result:
@@ -40,11 +40,11 @@ class Fourchan(object):
 
     def _cmd_4chan(self, cirno, username, args):
         if not args or args in cirno.disallowed4ch:
-            cirno.sendmsg(username + ': Доска отсутствует, либо запрещена.')
+            cirno.sendmsg('%s: Доска отсутствует, либо запрещена.' % username)
         else:
             randpic = self.get4chanpics(args)
             if randpic:
-                cirno.sendmsg(username + ': ' + randpic)
+                cirno.sendmsg('%s: %s' % (username, randpic))
 
 
 def setup():

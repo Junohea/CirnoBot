@@ -6,12 +6,12 @@ class Ratingpoll(object):
     @checkrank(2)
     def _cmd_poll(self, cirno, username, args):
         if not args:
-            cirno.sendmsg(username + ': Введите название!')
+            cirno.sendmsg('%s: Введите название!' % username)
         else:
             options = {
                 'opts': ['Не смотрел', '2', '3', '4', '5',
                          '6', '7', '8', '9', '10'],
-                'title': 'Ставим оценку ' + args,
+                'title': 'Ставим оценку %s' % args,
                 'timeout': 180,
                 'obscured': True
             }

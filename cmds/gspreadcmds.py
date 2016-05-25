@@ -8,8 +8,8 @@ class Gspread(object):
 
     def _cmd_db(self, cirno, username, data):
         if not data:
-            cirno.sendmsg(username + ': Укажите название'
-                                     ' и серии (опционально).')
+            cirno.sendmsg('%s: Укажите название и '
+                          'серии (опционально).' % username)
         else:
             titles = self.gs.extenddata(data)
             pos = 'end'
@@ -21,8 +21,9 @@ class Gspread(object):
                     x = parsemedialink(title)
                     cirno.addvideo(None, None, duration, temp, pos, x)
             else:
-                cirno.sendmsg(username + ': Ничего не нашла! Попробуй '
-                              'посмотреть доступные тайтлы в хранилище.')
+                cirno.sendmsg('%s: Ничего не нашла! Попробуй '
+                              'посмотреть доступные'
+                              ' тайтлы в хранилище.' % username)
 
     @checkrank(2)
     def _cmd_schedule(self, cirno, username, data):

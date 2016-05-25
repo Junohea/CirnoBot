@@ -2,6 +2,7 @@ from conf import config
 import gspread
 from datetime import datetime, date
 from oauth2client.service_account import ServiceAccountCredentials
+from random import choice
 
 
 class Googspread(object):
@@ -32,6 +33,8 @@ class Googspread(object):
                 data = title, series
                 result = self.rangedb(data)
                 return result
+        elif data == 'random':
+            return self.randomdb()
         else:
             return self.getallseries(title)
 
@@ -66,6 +69,11 @@ class Googspread(object):
             series_list = row[2:]
             result = [ser for ser in series_list[start-1:end] if ser]
             return result
+
+    def randomdb(self):
+        data = [i for i in self.base_sheet.col_values(3) if i.startswith('http')]
+        result = choice(data).split()
+        return result
 
     def datashedule(self):
         now = datetime.now()

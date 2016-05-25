@@ -15,7 +15,7 @@ class Quotes(object):
 
     def _cmd_quote(self, cirno, username, args):
         result = self.quotes()
-        cirno.sendmsg(username + ': ' + result)
+        cirno.sendmsg('%s: %s' % (username, result))
 
 
 def setup():

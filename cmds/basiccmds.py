@@ -8,41 +8,41 @@ class BasicCommands(object):
 
     def _cmd_uptime(self, cirno, username, args):
         uptime = time() - cirno.cirnostart
-        uptime = "%s" % (timedelta(seconds=round(uptime)))
-        cirno.sendmsg(username + ': В сети ' + uptime)
+        uptime = '%s' % (timedelta(seconds=round(uptime)))
+        cirno.sendmsg('%s: В сети: %s' % (username, uptime))
 
     def _cmd_pick(self, cirno, username, args):
         values = args.split(',')
         if len(values) > 1:
-            cirno.sendmsg(username + ': ' + choice(values))
+            cirno.sendmsg('%s: %s' % (username, choice(values)))
         else:
-            cirno.sendmsg(username + ': Укажите не менее двух вариантов.')
+            cirno.sendmsg('%s: Укажите не менее двух вариантов.' % username)
 
     def _cmd_roll(self, cirno, username, args):
         randoften = randint(0, 10)
         if args and args.isdigit():
             setrand = randint(0, int(args))
-            cirno.sendmsg(username + ': ' + "%s" % (setrand))
+            cirno.sendmsg('%s: %s' % (username, setrand))
         else:
-            cirno.sendmsg(username + ': ' + "%s" % (randoften))
+            cirno.sendmsg('%s: %s' % (username, randoften))
 
     def _cmd_ask(self, cirno, username, args):
         if not args:
-            cirno.sendmsg(username + ': Введите запрос!')
+            cirno.sendmsg('%s: Введите запрос!' % username)
         else:
             answers = ['Определенно да', 'Да', 'Вероятно', 'Ни шанса',
                        'Определенно нет', 'Вероятность мала', 'Нет',
                        'Это не важно', 'Не стоит вскрывать эту тему',
                        'Не задавайте мне таких вопросов, мне нет 18']
-            cirno.sendmsg(username + ': ' + choice(answers))
+            cirno.sendmsg('%s: %s' % (username, choice(answers)))
 
     def _cmd_who(self, cirno, username, args):
         if not args:
-            cirno.sendmsg(username + ': Введите запрос!')
+            cirno.sendmsg('%s: Введите запрос!' % username)
         else:
             query = sub(r'[^\w]', ' ', args)
             users = [key for key in cirno.userlist.keys()]
-            cirno.sendmsg(choice(users) + " " + query)
+            cirno.sendmsg('%s %s' % (choice(users), query))
 
 
 def setup():

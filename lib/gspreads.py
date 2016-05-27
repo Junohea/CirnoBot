@@ -6,20 +6,22 @@ from random import choice
 
 
 class Googspread(object):
-    def __init__(self):
+
+    def connect(self):
         sheetjson = config['API']['spreadsheet_json']
         spreadsheet_base = config['API']['spreadsheet_base']
         spreadsheet_schedule = config['API']['spreadsheet_schedule']
         credentials = ServiceAccountCredentials.from_json_keyfile_name(
             sheetjson, 'https://spreadsheets.google.com/feeds')
         gc = gspread.authorize(credentials)
-        self.base = gc.open_by_key(spreadsheet_base)
-        self.schedule = gc.open_by_key(spreadsheet_schedule)
-        self.base_sheet = self.base.get_worksheet(2)
-        self.shedule_sheet = self.schedule.get_worksheet(0)
+        base = gc.open_by_key(spreadsheet_base)
+        schedule = gc.open_by_key(spreadsheet_schedule)
+        self.base_sheet = base.get_worksheet(2)
+        self.shedule_sheet = schedule.get_worksheet(0)
         self.anime_list = self.base_sheet.col_values(1)
 
     def extenddata(self, data):
+        self.connect()
         cut = data.split('|')
         title = cut[0].rstrip()
         if len(cut) > 1 and '-' not in cut[1]:

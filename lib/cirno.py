@@ -26,7 +26,7 @@ class Cirno(BaseNamespace):
         self.userlist = {}
         self.afklist = {}
         self.triggers = {}
-        self.what = ': http://tehtube.tv/img/neponyala.jpg'
+        self.what = config['Misc']['errorpic']
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
         self.disallowed2ch = config['API']['disallow_2ch_boards'].split()
@@ -169,6 +169,9 @@ class Cirno(BaseNamespace):
             try:
                 return method(cirno, username, args)
             except:
-                cirno.sendmsg(username + cirno.what)
+                if cirno.what:
+                    cirno.sendmsg("%s: %s" % (username, cirno.what))
+                else:
+                    return
         else:
             return

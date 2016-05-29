@@ -59,7 +59,9 @@ class Cirno(BaseNamespace):
         if timestamp < self.starttime:
             return
 
-        if msg.startswith('!'):
+        if msg.startswith('!') \
+                and 'shadow' not in meta\
+                and username not in self.deny:
             return self.handle(self, username, msg)
 
         self.db.insertchat(timestamp, username, msg)

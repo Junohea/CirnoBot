@@ -1,4 +1,6 @@
 import re
+import time
+import codecs, json
 
 
 def checkrank(num):
@@ -28,6 +30,16 @@ def throttle(num):
         return wrapper
     return counter
 
+
+def writesettings(data):
+    with codecs.open('settings.json', 'w', 'utf8') as f:
+        f.write(json.dumps(data, ensure_ascii=False))
+
+
+def readsettings():
+    data = codecs.open('settings.json', 'r', 'utf-8')
+    result = json.load(data)
+    return result
 
 
 def filterchat(msg):

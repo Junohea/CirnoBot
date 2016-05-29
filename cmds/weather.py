@@ -1,5 +1,6 @@
 import requests
 from conf import config
+from lib.utils import throttle
 
 KEY = config['API']['weather']
 
@@ -39,6 +40,7 @@ class Weather(object):
         else:
             return 'Неверно указан город'
 
+    @throttle(5)
     def _cmd_weather(self, cirno, username, args):
         data = args.split()
         if not args:

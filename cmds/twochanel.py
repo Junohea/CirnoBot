@@ -1,4 +1,5 @@
 import requests
+from lib.utils import throttle
 from random import choice
 
 
@@ -50,6 +51,7 @@ class Twochannel(object):
         else:
             return 'Ничего не найдено!'
 
+    @throttle(5)
     def _cmd_2ch(self, cirno, username, args):
         if not args or args in cirno.disallowed2ch:
             cirno.sendmsg('%s: Доска отсутствует, либо запрещена.' % username)

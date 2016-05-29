@@ -1,11 +1,13 @@
 from lib.database import CirnoDatabase
 from datetime import datetime
+from lib.utils import throttle
 
 db = CirnoDatabase()
 
 
 class CommandsDB(object):
 
+    @throttle(5)
     def _cmd_stat(self, cirno, username, args):
         if not args:
             cirno.sendmsg('%s: Укажите пользователя!' % username)
@@ -16,16 +18,19 @@ class CommandsDB(object):
         else:
             cirno.sendmsg('Количество сообщений от %s: %s' % (args, data))
 
+    @throttle(5)
     def _cmd_q(self, cirno, username, args):
         randquot = db.getquote()
         if randquot:
             cirno.sendmsg('%s: %s' % (username, randquot))
 
+    @throttle(5)
     def _cmd_pic(self, cirno, username, args):
         randpic = db.getpic()
         if randpic:
             cirno.sendmsg('%s: %s' % (username, randpic))
 
+    @throttle(5)
     def _cmd_random(self, cirno, username, args):
         data = db.getrandom(args)
         if not data:

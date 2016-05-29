@@ -1,4 +1,5 @@
 import requests
+from lib.utils import throttle
 
 
 class Rate(object):
@@ -17,6 +18,7 @@ class Rate(object):
         eur = '%s: %s' % (data[1]['Name'], data[1]['Rate'])
         return usd, eur
 
+    @throttle(5)
     def _cmd_rate(self, cirno, username, args):
         data = self.ratedata()
         varsusd = ['usd', 'доллар', 'доллара']

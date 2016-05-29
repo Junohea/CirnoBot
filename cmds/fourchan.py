@@ -1,5 +1,6 @@
 import requests
 from random import choice
+from lib.utils import throttle
 
 
 class Fourchan(object):
@@ -38,6 +39,7 @@ class Fourchan(object):
         else:
             return 'Ничего не найдено!'
 
+    @throttle(5)
     def _cmd_4chan(self, cirno, username, args):
         if not args or args in cirno.disallowed4ch:
             cirno.sendmsg('%s: Доска отсутствует, либо запрещена.' % username)

@@ -1,4 +1,5 @@
 import requests
+from lib.utils import throttle
 from random import choice
 
 
@@ -15,6 +16,7 @@ class Safebooru(object):
                   % (i['directory'], i['image']) for i in data]
         return choice(result)
 
+    @throttle(5)
     def _cmd_booru(self, cirno, username, args):
         result = self.safebooru(args)
         if result:

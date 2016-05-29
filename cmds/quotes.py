@@ -1,4 +1,5 @@
 import requests
+from lib.utils import throttle
 
 
 class Quotes(object):
@@ -13,6 +14,7 @@ class Quotes(object):
             return
         return data
 
+    @throttle(5)
     def _cmd_quote(self, cirno, username, args):
         result = self.quotes()
         cirno.sendmsg('%s: %s' % (username, result))

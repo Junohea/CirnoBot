@@ -8,7 +8,22 @@ def checkrank(num):
             if rank >= num:
                 return func(self, cirno, username, args)
 
+def throttle(num):
+    def counter(func):
+        def wrapper(self, cirno, username, args):
+            last = time.time()
+            if username not in cirno.cmdthrottle:
+                cirno.cmdthrottle[username] = last
+                return func(self, cirno, username, args)
+            else:
+                data = time.time() - cirno.cmdthrottle[username]
+                cirno.cmdthrottle[username] = time.time()
+                if data >= num:
+                    return func(self, cirno, username, args)
+                else:
+                    return cirno.sendmsg('%s: Умерьте пыл.' % username)
         return wrapper
+    return counter
 
     return getrank
 

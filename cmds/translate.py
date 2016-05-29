@@ -1,5 +1,6 @@
 import requests
 from conf import config
+from lib.utils import throttle
 
 KEY = config['API']['yandex']
 
@@ -15,6 +16,7 @@ class Translate(object):
             return
         return ''.join(data)
 
+    @throttle(5)
     def _cmd_translate(self, cirno, username, args):
         query = self.translatedata(args)
         cirno.sendmsg('%s: %s' % (username, query))

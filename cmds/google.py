@@ -1,5 +1,7 @@
 import bs4
 import requests
+from lib.utils import throttle
+
 
 
 class GoogleSearch(object):
@@ -14,6 +16,7 @@ class GoogleSearch(object):
 
         return site[0] + ' ' + out
 
+    @throttle(5)
     def _cmd_search(self, cirno, username, query):
         if len(query) == 0:
             cirno.sendmsg('%s: Введите запрос!' % username)

@@ -10,14 +10,11 @@ class Googspread(object):
     def connect(self):
         sheetjson = config['API']['spreadsheet_json']
         spreadsheet_base = config['API']['spreadsheet_base']
-        spreadsheet_schedule = config['API']['spreadsheet_schedule']
-        credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        self.credentials = ServiceAccountCredentials.from_json_keyfile_name(
             sheetjson, 'https://spreadsheets.google.com/feeds')
-        gc = gspread.authorize(credentials)
+        gc = gspread.authorize(self.credentials)
         base = gc.open_by_key(spreadsheet_base)
-        schedule = gc.open_by_key(spreadsheet_schedule)
         self.base_sheet = base.get_worksheet(2)
-        self.shedule_sheet = schedule.get_worksheet(0)
         self.anime_list = self.base_sheet.col_values(1)
 
     def extenddata(self, data):
@@ -78,6 +75,10 @@ class Googspread(object):
         return result
 
     def datashedule(self):
+        spreadsheet_schedule = config['API']['spreadsheet_schedule']
+        gc = gspread.authorize(self.credentials)
+        schedule = gc.open_by_key(spreadsheet_schedule)
+        self.shedule_sheet = schedule.get_worksheet(0)
         now = datetime.now()
         today_list = self.shedule_sheet.col_values(date.isoweekday(now))
         return today_list

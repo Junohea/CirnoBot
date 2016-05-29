@@ -4,9 +4,12 @@ import re
 def checkrank(num):
     def getrank(func):
         def wrapper(self, cirno, username, args):
-            rank = cirno.userlist[username]
+            rank = cirno.userdict[username]['rank']
             if rank >= num:
                 return func(self, cirno, username, args)
+        return wrapper
+    return getrank
+
 
 def throttle(num):
     def counter(func):
@@ -25,7 +28,6 @@ def throttle(num):
         return wrapper
     return counter
 
-    return getrank
 
 
 def filterchat(msg):

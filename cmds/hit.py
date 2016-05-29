@@ -7,7 +7,7 @@ class Hit(object):
     @throttle(5)
     def _cmd_hit(self, cirno, username, args):
         user = args
-        if user not in cirno.userlist.keys() \
+        if user not in cirno.userdict.keys() \
                 or user == cirno.name:
             cirno.sendmsg('%s: :miu:' % username)
         else:

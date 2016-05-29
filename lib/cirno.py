@@ -23,9 +23,8 @@ class Cirno(BaseNamespace):
         self.starttime = int(time() * 1000)
         self.cirnostart = time()
         self.loadplugins()
-        self.userlist = {}
-        self.afklist = {}
-        self.triggers = {}
+        self.userdict = {}
+        self.cmdthrottle = {}
         self.what = config['Misc']['errorpic']
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
@@ -48,6 +47,7 @@ class Cirno(BaseNamespace):
         username = data['username']
         msg = data['msg']
         timestamp = data['time']
+        meta = data['meta']
 
         if username == '[server]':
             return
@@ -74,15 +74,16 @@ class Cirno(BaseNamespace):
     def on_addUser(self, data):
         name = data['name']
         rank = data['rank']
-        self.userlist[name] = rank
+        afk = data['meta']['afk']
+        self.userdict[name] = {
+            'rank': rank,
+            'afk': afk
+        }
         self.db.insertuser(name, rank)
         self.db.insertuserrank(name, rank)
 
     def on_userLeave(self, data):
-        user = data['name']
-        del self.userlist[user]
-        if user in self.afklist:
-            del self.afklist[user]
+        self.userdict.pop(data['name'])
 
     def on_updatePoll(self, data):
         if data['initiator'] != self.name:
@@ -105,11 +106,13 @@ class Cirno(BaseNamespace):
 
     def on_userlist(self, data):
         for i in data:
-            self.userlist[i['name']] = i['rank']
-            self.afklist[i['name']] = i['meta']['afk']
+            self.userdict[i['name']] = {
+                'rank': i['rank'],
+                'afk': i['meta']['afk']
+            }
 
     def on_setAFK(self, data):
-        self.afklist[data['name']] = data['afk']
+        self.userdict[data['name']]['afk'] = data['afk']
 
     def openpoll(self, data):
         self.emit('newPoll', data)

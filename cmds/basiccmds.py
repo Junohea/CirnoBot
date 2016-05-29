@@ -41,7 +41,7 @@ class BasicCommands(object):
             cirno.sendmsg('%s: Введите запрос!' % username)
         else:
             query = sub(r'[^\w]', ' ', args)
-            users = [key for key in cirno.userlist.keys()]
+            users = [key for key in cirno.userdict.keys()]
             cirno.sendmsg('%s %s' % (choice(users), query))
 
 

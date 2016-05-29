@@ -31,9 +31,12 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 <li><code>!stat [username]</code> - Quantity of chat messages by username.
 <li><code>!hit [username]</code> - Hit username.
 <li><code>!google [query]</code> - Sends results from the Google Web Search.
+<li><code>!mal [title]</code> - Sends information about anime title from MAL.
 
 Require rank:
 <li><code>!poll [title]</code> - Open an obscured poll to rate a title.
 <li><code>!alert</code> - Print list of AFK users.
 <li><code>!schedule</code> - Add shedule to the end of playlist. Requires Requires <a href='https://console.developers.google.com/project'>OAuth2<a>
+<li><code>!deny [user]</code> - Adds a user to bot blacklist.
+<li><code>!allow [user]</code> - Remove a user from bot blacklist.
 

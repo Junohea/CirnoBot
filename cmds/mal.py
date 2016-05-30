@@ -36,6 +36,8 @@ class MyAnimeList(object):
             end = title['end']
             if score == 0:
                 score = 'Нет оценки'
+            if (start, end) == ('0000-00-00', '0000-00-00'):
+                start, end = 'Неизвестно', 'Неизвестно'
             result = '|%s| Оценка: %s, Просмотрено серий: %s,' \
                      ' Начали: %s, Закончили: %s' \
                      % (args, score, episode, start, end)

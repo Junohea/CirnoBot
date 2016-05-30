@@ -2,6 +2,7 @@ from socketIO_client import BaseNamespace
 from lib.database import CirnoDatabase
 from time import time
 from lib.utils import filterchat
+import codecs, json
 import importlib
 import os
 from conf import config
@@ -25,6 +26,10 @@ class Cirno(BaseNamespace):
         self.loadplugins()
         self.userdict = {}
         self.cmdthrottle = {}
+        self.settings = {
+            'disallow': []
+        }
+        self.updatesettings()
         self.what = config['Misc']['errorpic']
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
@@ -61,7 +66,7 @@ class Cirno(BaseNamespace):
 
         if msg.startswith('!') \
                 and 'shadow' not in meta\
-                and username not in self.deny:
+                and username not in self.settings['disallow']:
             return self.handle(self, username, msg)
 
         self.db.insertchat(timestamp, username, msg)
@@ -163,6 +168,23 @@ class Cirno(BaseNamespace):
                 "temp": temp
             }
             self.emit("queue", json)
+
+    def updatesettings(self):
+        try:
+            self.readsettings()
+        except:
+            self.writesettings()
+        else:
+            self.settings = self.readsettings()
+
+    def writesettings(self):
+        with codecs.open('settings.json', 'w', 'utf8') as f:
+            f.write(json.dumps(self.settings, ensure_ascii=False))
+
+    def readsettings(self):
+        data = codecs.open('settings.json', 'r', 'utf-8')
+        result = json.load(data)
+        return result
 
     def handle(self, cirno, username, msg):
         commandslist = self.loadplugins()

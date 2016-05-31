@@ -97,12 +97,12 @@ class Cirno(BaseNamespace):
             return
         count = data['counts']
         title = data['title'].replace('Ставим оценку ', '')
-        if '?' in "%s" % count[0] or sum(count) == 0:
+        if '?' in '%s' % count[0] or sum(count) == 0:
             return
         else:
             count.insert(0, 0)
             q = [i * p for i, p in enumerate(count)]
-            numvotes = '+'.join(["%s*%d" % (i, j) for i, j
+            numvotes = '+'.join(['%s*%d' % (i, j) for i, j
                                  in enumerate(count) if
                                  j != 0 and i not in [0, 1]])
             if sum(q) == 1:
@@ -119,7 +119,10 @@ class Cirno(BaseNamespace):
             }
 
     def on_setAFK(self, data):
-        self.userdict[data['name']]['afk'] = data['afk']
+        username = data['name']
+        afk = data['afk']
+        if username and data:
+            self.userdict[username]['afk'] = afk
 
     def openpoll(self, data):
         self.emit('newPoll', data)

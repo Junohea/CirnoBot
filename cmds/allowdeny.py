@@ -7,7 +7,8 @@ class DenyUsers(object):
     def _cmd_deny(self, cirno, username, args):
         blocklist = cirno.readsettings()
         if args not in blocklist['disallow']:
-            if args in cirno.userdict.keys() and cirno.userdict[args]['rank'] < 2:
+            if args in cirno.userdict.keys() \
+                    and cirno.userdict[args]['rank'] < 2:
                 cirno.settings['disallow'].append(args)
                 cirno.writesettings()
             else:

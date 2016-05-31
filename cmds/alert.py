@@ -5,7 +5,7 @@ class Alert(object):
     @checkrank(2)
     def _cmd_alert(self, cirno, username, args):
         data = [(k, v['afk']) for k, v
-                in cirno.userdict.items() if v['afk'] == True]
+                in cirno.userdict.items() if v['afk']]
         afklist = [i[0] for i in data]
         result = ' '.join(afklist)
         if not afklist:

@@ -14,7 +14,8 @@ class CommandsDB(object):
             return
         data = '%s' % (db.getquantity(args))
         if int(data) < 1:
-            cirno.sendmsg('%s: Не нашла сообщений от такого пользователя!' % username)
+            cirno.sendmsg('%s: Не нашла сообщений от такого пользователя!'
+                          % username)
         else:
             cirno.sendmsg('Количество сообщений от %s: %s' % (args, data))
 

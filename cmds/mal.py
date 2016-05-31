@@ -7,7 +7,8 @@ from xml.etree import cElementTree as ET
 class MyAnimeList(object):
     def getdict(self):
         username = config['API']['mal']
-        response = requests.get('http://myanimelist.net/malappinfo.php?status=all&u=%s' % username)
+        response = requests.get('http://myanimelist.net/'
+                                'malappinfo.php?status=all&u=%s' % username)
 
         result = {}
         for raw_entry in ET.fromstring(response.text):

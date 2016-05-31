@@ -31,7 +31,8 @@ class Rate(object):
             elif args.lower() in varseur:
                 cirno.sendmsg('%s: %s' % (username, eur))
             else:
-                cirno.sendmsg('%s: Введите валюту (доступны usd и eur)!' % username)
+                cirno.sendmsg('%s: Введите валюту'
+                              '(доступны usd и eur)!' % username)
 
 
 def setup():

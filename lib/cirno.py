@@ -2,7 +2,8 @@ from socketIO_client import BaseNamespace
 from lib.database import CirnoDatabase
 from time import time
 from lib.utils import filterchat
-import codecs, json
+import codecs
+import json
 import importlib
 import os
 from conf import config

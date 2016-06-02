@@ -7,18 +7,22 @@ from random import choice
 
 class Googspread(object):
 
-    def connect(self):
+    def auth(self):
         sheetjson = config['API']['spreadsheet_json']
         spreadsheet_base = config['API']['spreadsheet_base']
-        self.credentials = ServiceAccountCredentials.from_json_keyfile_name(
+        sheetjson = config['API']['spreadsheet_json']
+        spreadsheet_schedule = config['API']['spreadsheet_schedule']
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(
             sheetjson, 'https://spreadsheets.google.com/feeds')
-        gc = gspread.authorize(self.credentials)
+        gc = gspread.authorize(credentials)
         base = gc.open_by_key(spreadsheet_base)
         self.base_sheet = base.get_worksheet(2)
         self.anime_list = self.base_sheet.col_values(1)
+        schedule = gc.open_by_key(spreadsheet_schedule)
+        self.shedule_sheet = schedule.get_worksheet(0)
 
     def extenddata(self, data):
-        self.connect()
+        self.auth()
         cut = data.split('|')
         title = cut[0].rstrip()
         if len(cut) > 1 and '-' not in cut[1]:
@@ -66,19 +70,17 @@ class Googspread(object):
             pos = self.anime_list.index(title)
             row = self.base_sheet.row_values(pos + 1)
             series_list = row[2:]
-            result = [ser for ser in series_list[start-1:end] if ser]
+            result = [ser for ser in series_list[start - 1:end] if ser]
             return result
 
     def randomdb(self):
-        data = [i for i in self.base_sheet.col_values(3) if i.startswith('http')]
+        series = self.base_sheet.col_values(3)
+        data = [i for i in series if i.startswith('http')]
         result = choice(data).split()
         return result
 
     def datashedule(self):
-        spreadsheet_schedule = config['API']['spreadsheet_schedule']
-        gc = gspread.authorize(self.credentials)
-        schedule = gc.open_by_key(spreadsheet_schedule)
-        self.shedule_sheet = schedule.get_worksheet(0)
+        self.auth()
         now = datetime.now()
         today_list = self.shedule_sheet.col_values(date.isoweekday(now))
         return today_list

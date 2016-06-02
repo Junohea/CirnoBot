@@ -34,14 +34,11 @@ class Fourchan(object):
         result = ['%s%s%s' % (main, post['tim'], post['ext']) for post in posts
                   if ('filename' in post) and
                   (post.get('ext', None) in allowext)]
-        if result:
-            return choice(result)
-        else:
-            return 'Ничего не найдено!'
+        return choice(result) if result else 'Ничего не найдено!'
 
-    @throttle(5)
+    @throttle(8)
     def _cmd_4chan(self, cirno, username, args):
-        if not args or args in cirno.disallowed4ch:
+        if args not in self.fourchanboards() or args in cirno.disallowed4ch:
             cirno.sendmsg('%s: Доска отсутствует, либо запрещена.' % username)
         else:
             randpic = self.get4chanpics(args)

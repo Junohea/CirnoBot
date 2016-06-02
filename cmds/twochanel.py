@@ -11,7 +11,7 @@ class Twochannel(object):
             data = requests.post(getboards)
             boards = ['Политика', 'Пользовательские', 'Тематика',
                       'Техника и софт', 'Разное', 'Творчество',
-                      'Игры', 'Японская культура']
+                      'Игры', 'Японская культура', 'Взрослым']
         except Exception:
             return
         res = list(map(lambda x: data.json(), getboards))
@@ -46,14 +46,11 @@ class Twochannel(object):
                       i['files'][0]['type'] in [1, 2]]
         except Exception:
             return
-        if result:
-            return choice(result)
-        else:
-            return 'Ничего не найдено!'
+        return choice(result) if result else 'Ничего не найдено!'
 
-    @throttle(5)
+    @throttle(8)
     def _cmd_2ch(self, cirno, username, args):
-        if not args or args in cirno.disallowed2ch:
+        if args not in self.boardlist() or args in cirno.disallowed2ch:
             cirno.sendmsg('%s: Доска отсутствует, либо запрещена.' % username)
         else:
             randpic = self.get2chpic(args)

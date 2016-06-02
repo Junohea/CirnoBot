@@ -97,7 +97,7 @@ class Cirno(BaseNamespace):
         if data['initiator'] != self.name:
             return
         count = data['counts']
-        title = data['title'].replace('Ставим оценку ', '')
+        title = filterchat(data['title']).replace('Ставим оценку ', '')
         if '?' in '%s' % count[0] or sum(count) == 0:
             return
         else:

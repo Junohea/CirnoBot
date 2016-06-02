@@ -36,8 +36,8 @@ def filterchat(msg):
     msg = re.sub("&lt;", "<", msg)
     msg = re.sub("&gt;", ">", msg)
     msg = re.sub("&quot;", "\"", msg)
-    msg = re.sub("&#40;", "\(", msg)
-    msg = re.sub("&#41;", "\)", msg)
+    msg = re.sub("&#40;", "(", msg)
+    msg = re.sub("&#41;", ")", msg)
     msg = re.sub("(<([^>]+)>)", "", msg)
     msg = re.sub("^[ \t]+", "", msg)
     return msg

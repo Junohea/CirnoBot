@@ -1,6 +1,5 @@
-from re import sub
 from time import sleep
-from lib.utils import parsemedialink
+from lib.utils import parsemedialink, filterchat
 
 
 class Addvideo(object):
@@ -12,7 +11,7 @@ class Addvideo(object):
             pos = 'end'
             temp = True
             duration = 0
-            data = sub(r'<[^>]+>', '', data)
+            data = filterchat(data)
             vidlist = data.split(' ')
             for vid in vidlist:
                 sleep(1)

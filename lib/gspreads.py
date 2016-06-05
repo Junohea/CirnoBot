@@ -50,8 +50,7 @@ class Googspread(object):
 
     def seriesdb(self, data):
         if data[0] in self.anime_list:
-            title = data[0]
-            series = data[1]
+            (title, series) = data
             pos = self.anime_list.index(title)
             row = self.base_sheet.row_values(pos + 1)
             series_list = row[2:]
@@ -63,8 +62,7 @@ class Googspread(object):
 
     def rangedb(self, data):
         if data[0] in self.anime_list:
-            title = data[0]
-            serrange = data[1]
+            (title, serrange) = data
             start = int(serrange[0])
             end = int(serrange[1])
             pos = self.anime_list.index(title)

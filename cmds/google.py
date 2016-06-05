@@ -13,9 +13,8 @@ class GoogleSearch(object):
         soup = bs4.BeautifulSoup(req.text, "html.parser")
         site = [cite.text for cite in soup.findAll('cite')]
         desc = [li.text for li in soup.findAll('span', attrs={'class': 'st'})]
-        out = u' '.join(desc[0].split())
-
-        return site[0] + ' ' + out
+        result = '%s %s' % (site[0], desc[0])
+        return result
 
     @throttle(5)
     def _cmd_search(self, cirno, username, query):

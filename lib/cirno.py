@@ -91,7 +91,7 @@ class Cirno(BaseNamespace):
         self.db.insertuserrank(name, rank)
 
     def on_userLeave(self, data):
-        self.userdict.pop(data['name'])
+        del self.userdict[data['name']]
 
     def on_updatePoll(self, data):
         if data['initiator'] != self.name:
@@ -175,11 +175,9 @@ class Cirno(BaseNamespace):
 
     def updatesettings(self):
         try:
-            self.readsettings()
+            self.settings = self.readsettings()
         except:
             self.writesettings()
-        else:
-            self.settings = self.readsettings()
 
     def writesettings(self):
         with codecs.open('settings.json', 'w', 'utf8') as f:

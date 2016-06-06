@@ -1,5 +1,5 @@
 import requests
-from conf import config
+from config import config
 from lib.utils import throttle
 
 KEY = config['API']['weather']
@@ -42,24 +42,22 @@ class Weather(object):
 
     @throttle(5)
     def _cmd_weather(self, cirno, username, args):
-        data = args.split()
         if not args:
             cirno.sendmsg('%s: Укажите город!' % username)
             return
+        data = args.split()
         city = data[0]
-        forecast = self.forecast(city)
-        today = self.weatherdata(city)
-        tomorrow = 'Погода в городе %s на завтра: %s°C' \
-                   % (city.capitalize(), forecast[0])
-        aftertomorrow = 'Погода в городе %s на послезавтра: ' \
-                        '%s°C' % (city.capitalize(), forecast[1])
-
-        if today and len(data) < 2:
-            cirno.sendmsg('%s: %s' % (username, today))
-        elif forecast and data[1] == 'завтра':
-            cirno.sendmsg('%s: %s' % (username, tomorrow))
-        elif forecast and data[1] == 'послезавтра':
-            cirno.sendmsg('%s: %s' % (username, aftertomorrow))
+        (tomorrow, aftertomorrow) = self.forecast(city)
+        tomorrow_res = 'Погода в городе %s на завтра: %s°C' \
+            % (city.capitalize(), tomorrow)
+        aftertomorrow_res = 'Погода в городе %s на послезавтра: ' \
+            '%s°C' % (city.capitalize(), aftertomorrow)
+        if self.weatherdata(city) and len(data) < 2:
+            cirno.sendmsg('%s: %s' % (username, self.weatherdata(city)))
+        elif self.forecast(city) and data[1] == 'завтра':
+            cirno.sendmsg('%s: %s' % (username, tomorrow_res))
+        elif self.forecast(city) and data[1] == 'послезавтра':
+            cirno.sendmsg('%s: %s' % (username, aftertomorrow_res))
 
 
 def setup():

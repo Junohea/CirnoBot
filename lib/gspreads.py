@@ -1,4 +1,4 @@
-from conf import config
+from config import config
 import gspread
 from datetime import datetime, date
 from oauth2client.service_account import ServiceAccountCredentials
@@ -50,7 +50,7 @@ class Googspread(object):
 
     def seriesdb(self, data):
         if data[0] in self.anime_list:
-            (title, series) = data
+            title, series = data
             pos = self.anime_list.index(title)
             row = self.base_sheet.row_values(pos + 1)
             series_list = row[2:]
@@ -62,7 +62,7 @@ class Googspread(object):
 
     def rangedb(self, data):
         if data[0] in self.anime_list:
-            (title, serrange) = data
+            title, serrange = data
             start = int(serrange[0])
             end = int(serrange[1])
             pos = self.anime_list.index(title)

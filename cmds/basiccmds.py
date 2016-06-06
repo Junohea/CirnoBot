@@ -1,7 +1,6 @@
 from time import time
 from datetime import timedelta
 from random import choice, randint
-from re import sub
 
 
 class BasicCommands(object):
@@ -40,9 +39,9 @@ class BasicCommands(object):
         if not args:
             cirno.sendmsg('%s: Введите запрос!' % username)
         else:
-            query = sub(r'[^\w]', ' ', args)
             users = list(cirno.userdict.keys())
-            cirno.sendmsg('%s %s' % (choice(users), query))
+            args = args.replace('?', '') if args.endswith('?') else args
+            cirno.sendmsg('%s %s' % (choice(users), args))
 
 
 def setup():

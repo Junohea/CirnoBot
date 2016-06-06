@@ -24,8 +24,7 @@ class Rate(object):
         varsusd = ['usd', 'доллар', 'доллара']
         varseur = ['eur', 'евро']
         if data:
-            usd = data[0]
-            eur = data[1]
+            usd, eur = data
             if args.lower() in varsusd:
                 cirno.sendmsg('%s: %s' % (username, usd))
             elif args.lower() in varseur:

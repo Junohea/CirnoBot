@@ -1,6 +1,6 @@
 from socketIO_client import SocketIO
 from lib.cirno import Cirno
-from conf import config
+from config import config
 
 
 class Connections(object):

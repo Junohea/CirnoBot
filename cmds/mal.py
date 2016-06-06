@@ -1,4 +1,4 @@
-from conf import config
+from config import config
 from lib.utils import throttle
 import requests
 from xml.etree import cElementTree as ET

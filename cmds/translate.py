@@ -1,5 +1,5 @@
 import requests
-from conf import config
+from config import config
 from lib.utils import throttle
 
 KEY = config['API']['yandex']

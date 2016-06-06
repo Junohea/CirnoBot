@@ -6,7 +6,7 @@ import codecs
 import json
 import importlib
 import os
-from conf import config
+from config import config
 
 
 def importplugins(path):

@@ -24,12 +24,16 @@ class CommandsDB(object):
         randquot = db.getquote()
         if randquot:
             cirno.sendmsg('%s: %s' % (username, randquot))
+        else:
+            cirno.sendmsg('%s: Ничего не найдено!' % username)
 
     @throttle(5)
     def _cmd_pic(self, cirno, username, args):
         randpic = db.getpic()
         if randpic:
             cirno.sendmsg('%s: %s' % (username, randpic))
+        else:
+            cirno.sendmsg('%s: Ничего не найдено!' % username)
 
     @throttle(5)
     def _cmd_random(self, cirno, username, args):

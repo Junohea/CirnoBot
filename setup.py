@@ -8,5 +8,6 @@ setup(
     license='None',
     author='tehcpu',
     author_email='admin@tehtube.tv',
-    description='', requires=['requests', 'gspread', 'oauth2client', 'bs4']
+    description='', requires=['socketIO_client', 'requests',
+                              'gspread', 'oauth2client', 'bs4']
 )

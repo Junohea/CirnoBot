@@ -1,5 +1,7 @@
 # CirnoBot
-A bot for tehtube/CyTube
+A bot for CyTube.
+
+<a href="https://github.com/tehnotcpu/CirnoBot/wiki/%D0%94%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%B0%D1%86%D0%B8%D1%8F-%D0%BD%D0%B0-%D1%80%D1%83%D1%81%D1%81%D0%BA%D0%BE%D0%BC">Документация на русском</a>
 
 # Requirements:
 <li>Python 3.5
@@ -26,7 +28,6 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 <li><code>!rate</code> - Sends current rate exchange.
 <li><code>!translate</code> - Translates the given string to Russian. Requires <a href='https://tech.yandex.ru/translate/'>Yandex Translate<a> API
 <li><code>!add [url(list of url)]</code> - Add videos to the end of playlist.
-<li><code>!db [title]|[series num]</code> - Add videos from Google Spreadsheets to the end of playlist. (Example: !db Toradora |1,2) Requires <a href='https://console.developers.google.com/project'>OAuth2<a>
 <li><code>!random [username]</code> - Fetches a quote from the user given, otherwise fetches a random quote.
 <li><code>!stat [username]</code> - Quantity of chat messages by username.
 <li><code>!hit [username]</code> - Hit username.
@@ -34,9 +35,7 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 <li><code>!mal [title]</code> - Sends information about anime title from MAL.
 
 Require rank:
-<li><code>!poll [title]</code> - Open an obscured poll to rate a title.
 <li><code>!alert</code> - Print list of AFK users.
-<li><code>!schedule</code> - Add shedule to the end of playlist. Requires Requires <a href='https://console.developers.google.com/project'>OAuth2<a>
 <li><code>!deny [user]</code> - Adds a user to bot blacklist.
 <li><code>!allow [user]</code> - Remove a user from bot blacklist.
 

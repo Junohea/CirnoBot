@@ -1,0 +1,3 @@
+[submodule "socketIO-client"]
+	path = socketIO-client
+	url = https://github.com/tehnotcpu/socketIO-client.git

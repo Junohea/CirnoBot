@@ -76,6 +76,11 @@ class Cirno(BaseNamespace):
         username = data['username']
         msg = data['msg']
         rank = self.db.getuserrank(username)
+
+        msg = filterchat(msg)
+        if msg is None:
+            return
+
         if rank >= 2:
             self.handle(self, username, msg)
 

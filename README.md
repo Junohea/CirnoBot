@@ -8,11 +8,6 @@ A bot for CyTube.
 <li>Registered CyTube account. Few functionality does not work properly without being a moderator.
 
 # Usage:
-<li><code>git clone https://github.com/tehnotcpu/CirnoBot.git</code>
-<li><code>cd CirnoBot</code>
-<li><code>git submodule init</code>
-<li><code>git submodule update</code>
-<li><code>cd socketIO-client</code>
 <li><code>python3 setup.py install</code>
 <li>Edit <code>conf.cfg in CirnoBot directory</code>
 <li>Run with <code>python3 cyclient.py</code>

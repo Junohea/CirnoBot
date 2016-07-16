@@ -32,7 +32,7 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 <li><code>!random [username]</code> - Fetches a quote from the user given, otherwise fetches a random quote.
 <li><code>!stat [username]</code> - Quantity of chat messages by username.
 <li><code>!hit [username]</code> - Hit username.
-<li><code>!google [query]</code> - Sends results from the Google Web Search.
+<li><code>!search [query]</code> - Sends results from the Google Web Search.
 <li><code>!mal [title]</code> - Sends information about anime title from MAL.
 
 Require rank:

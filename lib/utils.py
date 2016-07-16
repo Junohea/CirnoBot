@@ -111,6 +111,12 @@ def parsemedialink(url):
             'id': m.group(3),
             'type': 'dm'
         }
+    elif 'vid.me' in url:
+        m = re.search(r'(https?://)?(vid.me)/([^&#]+)', url)
+        return {
+            'id': m.group(3),
+            'type': 'vm'
+        }
     elif 'soundcloud.com' in url:
         return {
             'id': url,

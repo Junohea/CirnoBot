@@ -17,7 +17,10 @@ class CommandsDB(object):
             cirno.sendmsg('%s: Не нашла сообщений от такого пользователя!'
                           % username)
         else:
-            cirno.sendmsg('Количество сообщений от %s: %s' % (args, data))
+            emotes_quantity = '%s' % (db.emotesquantity(args))
+            cirno.sendmsg('Количество сообщений от %s: %s. '
+                          'Сообщений только со смайлами: %s'
+                          % (args, data, emotes_quantity))
 
     @throttle(5)
     def _cmd_q(self, cirno, username, args):

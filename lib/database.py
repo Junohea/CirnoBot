@@ -92,6 +92,17 @@ class CirnoDatabase(object):
         else:
             return None
 
+    def emotesquantity(self, username):
+        username = username.split(' ')[0]
+        self.c.execute("SELECT COUNT(*) AS quantity, msg FROM chat"
+                       " WHERE username = ? AND msg LIKE ':%:%' COLLATE NOCASE LIMIT 1",
+                       [username])
+        r = self.c.fetchone()
+        if r:
+            return list(r)[0]
+        else:
+            return None
+
     def getpic(self):
         self.c.execute("SELECT pictures FROM pics ORDER BY"
                        " RANDOM() LIMIT 1")

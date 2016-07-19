@@ -95,7 +95,7 @@ class CirnoDatabase(object):
     def emotesquantity(self, username):
         username = username.split(' ')[0]
         self.c.execute("SELECT COUNT(*) AS quantity, msg FROM chat"
-                       " WHERE username = ? AND (msg LIKE ':%:' OR msg LIKE '%:  :%:') COLLATE NOCASE LIMIT 1",
+                       " WHERE username = ? COLLATE NOCASE AND (msg LIKE ':%:' OR msg LIKE '%:  :%:') COLLATE NOCASE LIMIT 1",
                        [username])
         r = self.c.fetchone()
         if r:

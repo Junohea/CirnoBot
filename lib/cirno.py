@@ -103,8 +103,10 @@ class Cirno(BaseNamespace):
             return
         count = data['counts']
         title = filterchat(data['title']).replace('Ставим оценку ', '')
-        if '?' in '%s' % count[0] or sum(count) == 0:
+        if '?' in '%s' % count[0]:
             return
+        if sum(count[1:]) == 0:
+            self.sendmsg('Все присутствующие проголосовали за "Не смотрел"')
         else:
             count.insert(0, 0)
             q = [i * p for i, p in enumerate(count)]

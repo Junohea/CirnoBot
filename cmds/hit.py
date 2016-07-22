@@ -9,7 +9,7 @@ class Hit(object):
         user = args
         if user not in cirno.userdict.keys() \
                 or user == cirno.name:
-            cirno.sendmsg('%s: :miu:' % username)
+            cirno.sendmsg('%s: Указанный пользователь не найден.' % username)
         else:
             variants = ['/me пинает {}',
                         '/me отказывается пинать {} и дает ему печеньку.',

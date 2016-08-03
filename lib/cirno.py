@@ -34,6 +34,7 @@ class Cirno(BaseNamespace):
         self.what = config['Misc']['errorpic']
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
+        self.rus_commands = config['Misc']['rus_commands']
         self.disallowed2ch = config['API']['disallow_2ch_boards'].split()
         self.disallowed4ch = config['API']['disallow_4chan_boards'].split()
 
@@ -66,7 +67,7 @@ class Cirno(BaseNamespace):
             return
 
         if msg.startswith('!') \
-                and 'shadow' not in meta\
+                and 'shadow' not in meta \
                 and username not in self.settings['disallow']:
             return self.handle(self, username, msg)
 
@@ -97,27 +98,6 @@ class Cirno(BaseNamespace):
 
     def on_userLeave(self, data):
         del self.userdict[data['name']]
-
-    def on_updatePoll(self, data):
-        if data['initiator'] != self.name:
-            return
-        count = data['counts']
-        title = filterchat(data['title']).replace('Ставим оценку ', '')
-        if '?' in '%s' % count[0]:
-            return
-        if sum(count[1:]) == 0:
-            self.sendmsg('Все присутствующие проголосовали за "Не смотрел"')
-        else:
-            count.insert(0, 0)
-            q = [i * p for i, p in enumerate(count)]
-            numvotes = '+'.join(['%s*%d' % (i, j) for i, j
-                                 in enumerate(count) if
-                                 j != 0 and i not in [0, 1]])
-            if sum(q) == 1:
-                return
-            rating = float(sum(q[2:])) / sum(count[2:])
-            self.sendmsg('Оценка %s: %s (%s)'
-                         % (title, round(rating, 2), numvotes))
 
     def on_userlist(self, data):
         for i in data:
@@ -195,12 +175,43 @@ class Cirno(BaseNamespace):
         result = json.load(data)
         return result
 
+    def ruscommands(self):
+        commandslist = self.loadplugins()
+        ruscommandsdict = {
+            "выбор": commandslist['commands'].get("pick", None),
+            "ролл": commandslist['commands'].get("roll", None),
+            "спросить": commandslist['commands'].get("ask", None),
+            "кто": commandslist['commands'].get("who", None),
+            "аптайм": commandslist['commands'].get("uptime", None),
+            "цитата": commandslist['commands'].get("quote", None),
+            "погода": commandslist['commands'].get("weather", None),
+            "курс": commandslist['commands'].get("rate", None),
+            "переведи": commandslist['commands'].get("translate", None),
+            "добавь": commandslist['commands'].get("add", None),
+            "рандом": commandslist['commands'].get("random", None),
+            "статистика": commandslist['commands'].get("stat", None),
+            "пни": commandslist['commands'].get("hit", None),
+            "загугли": commandslist['commands'].get("search", None),
+            "q": commandslist['commands'].get("q", None),
+            "пик": commandslist['commands'].get("pic", None),
+            "booru": commandslist['commands'].get("booru", None),
+            "4chan": commandslist['commands'].get("4chan", None),
+            "2ch": commandslist['commands'].get("2ch", None),
+            "алерт": commandslist['commands'].get("alert", None),
+            "запрети": commandslist['commands'].get("deny", None),
+            "разреши": commandslist['commands'].get("allow", None),
+        }
+        return ruscommandsdict
+
     def handle(self, cirno, username, msg):
         commandslist = self.loadplugins()
         splice = msg.split(' ')
         command = splice.pop(0)[1:]
         args = ' '.join("%s" % x for x in splice).strip()
-        method = commandslist['commands'].get(command, None)
+        if self.rus_commands:
+            method = self.ruscommands().get(command, None)
+        else:
+            method = commandslist['commands'].get(command, None)
         if method:
             try:
                 return method(cirno, username, args)

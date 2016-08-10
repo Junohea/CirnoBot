@@ -118,11 +118,16 @@ def parsemedialink(url):
             'type': 'vm'
         }
     elif 'streamable.com' in url:
-    m = re.search(r'(https?://)?(streamable.com)/([^&#]+)', url)
+        m = re.search(r'(https?://)?(streamable.com)/([^&#]+)', url)
         return {
             'id': m.group(3),
             'type': 'sb'
-    }
+        }
+    elif url.endswith(".m3u8"):
+        return {
+            'id': url,
+            'type': 'hl'
+        }
     elif 'soundcloud.com' in url:
         return {
             'id': url,

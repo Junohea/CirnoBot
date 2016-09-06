@@ -1,5 +1,7 @@
 import re
 import time
+import codecs
+import json
 
 
 def checkrank(num):
@@ -41,6 +43,24 @@ def filterchat(msg):
     msg = re.sub("(<([^>]+)>)", "", msg)
     msg = re.sub("^[ \t]+", "", msg)
     return msg
+
+
+def updatesettings(cirno):
+    try:
+        cirno.settings = readsettings()
+    except:
+        writesettings(cirno)
+
+
+def writesettings(cirno):
+    with codecs.open('settings.json', 'w', 'utf8') as f:
+        f.write(json.dumps(cirno.settings, ensure_ascii=False))
+
+
+def readsettings():
+    data = codecs.open('settings.json', 'r', 'utf-8')
+    result = json.load(data)
+    return result
 
 
 def parsemedialink(url):

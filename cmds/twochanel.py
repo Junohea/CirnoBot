@@ -6,7 +6,7 @@ from random import choice
 class Twochannel(object):
 
     def boardlist(self):
-        getboards = 'https://2ch.hk/makaba/mobile.fcgi?task=get_boards'
+        getboards = 'http://2ch.hk/makaba/mobile.fcgi?task=get_boards'
         try:
             data = requests.post(getboards)
             boards = ['Политика', 'Пользовательские', 'Тематика',
@@ -19,7 +19,7 @@ class Twochannel(object):
         return result
 
     def managethreads(self, board):
-        inboard = 'https://2ch.hk/%s/index.json' % board
+        inboard = 'http://2ch.hk/%s/index.json' % board
         if board in self.boardlist():
             threads = requests.get(inboard).json()['threads']
             result = [i['thread_num'] for i in threads]
@@ -28,7 +28,7 @@ class Twochannel(object):
     def serfthread(self, board):
         try:
             threadnum = self.managethreads(board)
-            inthread = 'https://2ch.hk/%s/res/%s.json' \
+            inthread = 'http://2ch.hk/%s/res/%s.json' \
                        % (board, choice(threadnum))
             getthread = requests.get(inthread).json()['threads'][0]['posts']
         except Exception:
@@ -40,7 +40,7 @@ class Twochannel(object):
             return
         try:
             inthread = self.serfthread(board)
-            result = ['https://2ch.hk/%s/%s' %
+            result = ['http://2ch.hk/%s/%s' %
                       (board, i['files'][0]['path']) for
                       i in inthread if len(i['files']) != 0 and
                       i['files'][0]['type'] in [1, 2]]

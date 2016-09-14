@@ -19,7 +19,6 @@ class Cirno(BaseNamespace):
         self.what = config['Misc']['errorpic']
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']
-        self.rus_commands = config['Misc']['rus_commands']
         self.disallowed2ch = config['API']['disallow_2ch_boards'].split()
         self.disallowed4ch = config['API']['disallow_4chan_boards'].split()
 

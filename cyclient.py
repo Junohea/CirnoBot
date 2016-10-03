@@ -20,7 +20,7 @@ class Connections(object):
         return port
 
     def cirnoconnect(self):
-        with SocketIO(self.host, self.getsocketport(), Cirno) as socketIO:
+        with SocketIO(self.host, self.getsocketport(), Cirno, transports='xhr-polling') as socketIO:
             socketIO.emit('initChannelCallbacks')
             socketIO.emit('joinChannel', {'name': self.channel,
                                           'pw': self.channelpw})

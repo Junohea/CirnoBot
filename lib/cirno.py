@@ -14,6 +14,7 @@ class Cirno(BaseNamespace):
         self.userdict = {}
         self.cmdthrottle = {}
         self.settings = {'disallow': []}
+        self.channelOpts = {}
         loadplugins()
         updatesettings(self)
         self.what = config['Misc']['errorpic']
@@ -68,8 +69,14 @@ class Cirno(BaseNamespace):
         self.db.insertuser(name, rank)
         self.db.insertuserrank(name, rank)
 
+    def on_channelOpts(self, data):
+        self.channelOpts = data
+
     def on_userLeave(self, data):
         del self.userdict[data['name']]
+        rank_list = [value['rank'] for key, value in self.userdict.items() if key != 'Сырно']
+        if [2, 3, 5, 255] not in rank_list:
+            self.emit('setOptions', {'allow_voteskip': True})
 
     def on_userlist(self, data):
         for i in data:
@@ -101,6 +108,12 @@ class Cirno(BaseNamespace):
                       {'msg': message,
                        'meta': {}
                        })
+
+    def handle_voteskip(self):
+        if self.channelOpts['allow_voteskip']:
+            self.emit('setOptions', {'allow_voteskip': False})
+        else:
+            self.emit('setOptions', {'allow_voteskip': True})
 
     def addvideo(self, typev, idv, duration, temp, pos, link):
         if link:

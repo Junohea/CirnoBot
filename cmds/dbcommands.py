@@ -18,9 +18,10 @@ class CommandsDB(object):
                           % username)
         else:
             emotes_quantity = '%s' % (db.emotesquantity(args))
+            ratio = int(emotes_quantity)*100/int(data)
             cirno.sendmsg('Количество сообщений от %s: %s. '
-                          'Сообщений только со смайлами: %s'
-                          % (args, data, emotes_quantity))
+                          'Из них только со смайлами: %s. Смайлов от общего числа сообщений: %s%%'
+                          % (args, data, emotes_quantity, round(ratio, 2)))
 
     @throttle(5)
     def _cmd_q(self, cirno, username, args):

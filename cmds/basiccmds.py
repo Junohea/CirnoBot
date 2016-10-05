@@ -1,7 +1,7 @@
 from time import time
 from datetime import timedelta
 from random import choice, randint
-
+from lib.utils import checkrank
 
 class BasicCommands(object):
 
@@ -31,8 +31,7 @@ class BasicCommands(object):
         else:
             answers = ['Определенно да', 'Да', 'Вероятно', 'Ни шанса',
                        'Определенно нет', 'Вероятность мала', 'Нет',
-                       'Это не важно', 'Не стоит вскрывать эту тему',
-                       'Не задавайте мне таких вопросов, мне нет 18']
+                       'Это не важно', 'Не стоит вскрывать эту тему']
             cirno.sendmsg('%s: %s' % (username, choice(answers)))
 
     def _cmd_who(self, cirno, username, args):
@@ -42,6 +41,10 @@ class BasicCommands(object):
             users = list(cirno.userdict.keys())
             args = args.replace('?', '') if args.endswith('?') else args
             cirno.sendmsg('%s %s' % (choice(users), args))
+
+    @checkrank(2)
+    def _cmd_voteskip(self, cirno, username, args):
+        cirno.handle_voteskip()
 
 
 def setup():

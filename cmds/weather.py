@@ -6,13 +6,13 @@ KEY = config['API']['weather']
 
 
 class Weather(object):
+    url = 'http://api.openweathermap.org/data/2.5/weather?' \
+          'q=%s&lang=ru&units=metric&APPID=%s'
 
     def weatherdata(self, city):
-        url = 'http://api.openweathermap.org/data/2.5/weather?' \
-              'q=%s&lang=ru&units=metric&APPID=%s' % (city, KEY)
         if city.isalpha():
             try:
-                data = requests.get(url).json()
+                data = requests.get(self.url % (city, KEY)).json()
                 desc = data['weather'][0]['description'].capitalize()
                 temp = '%s' % round(data['main']['temp'])
                 result = 'Погода в городе %s: %s %s°C' \
@@ -45,6 +45,9 @@ class Weather(object):
         if not args:
             cirno.sendmsg('%s: Укажите город!' % username)
             return
+        # if requests.get(self.url).status_code == 401:
+        #     cirno.sendmsg('Отсутствует ключ к API.')
+        #     return
         data = args.split()
         city = data[0]
         (tomorrow, aftertomorrow) = self.forecast(city)

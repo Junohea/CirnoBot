@@ -14,6 +14,7 @@ class Cirno(BaseNamespace):
         self.userdict = {}
         self.cmdthrottle = {}
         self.settings = {'disallow': []}
+        self.channelOpts = {}
         loadplugins()
         updatesettings(self)
         self.what = config['Misc']['errorpic']
@@ -57,6 +58,25 @@ class Cirno(BaseNamespace):
         if rank >= 2:
             handle(self, username, msg)
 
+    def on_updatePoll(self, data):
+        if data['initiator'] != self.name:
+            return
+        count = data['counts']
+        title = filterchat(data['title']).replace('Ставим оценку ', '')
+        if '?' in '%s' % count[0] or sum(count) == 0:
+            return
+        else:
+            count.insert(0, 0)
+            q = [i * p for i, p in enumerate(count)]
+            numvotes = '+'.join(['%s*%d' % (i, j) for i, j
+                                 in enumerate(count) if
+                                 j != 0 and i not in [0, 1]])
+            if sum(q) == 1:
+                return
+            rating = float(sum(q[2:])) / sum(count[2:])
+            self.sendmsg('Оценка %s: %s (%s)'
+                         % (title, round(rating, 2), numvotes))
+
     def on_addUser(self, data):
         name = data['name']
         rank = data['rank']
@@ -68,8 +88,14 @@ class Cirno(BaseNamespace):
         self.db.insertuser(name, rank)
         self.db.insertuserrank(name, rank)
 
+    def on_channelOpts(self, data):
+        self.channelOpts = data
+
     def on_userLeave(self, data):
         del self.userdict[data['name']]
+        rank_list = [value['rank'] for key, value in self.userdict.items() if key != 'Сырно']
+        if [2, 3, 5, 255] not in rank_list:
+            self.emit('setOptions', {'allow_voteskip': True})
 
     def on_userlist(self, data):
         for i in data:
@@ -101,6 +127,13 @@ class Cirno(BaseNamespace):
                       {'msg': message,
                        'meta': {}
                        })
+
+    def handle_voteskip(self):
+        if self.channelOpts['allow_voteskip']:
+            self.emit('setOptions', {'allow_voteskip': False})
+        else:
+            self.emit('setOptions', {'allow_voteskip': True})
+
 
     def addvideo(self, typev, idv, duration, temp, pos, link):
         if link:

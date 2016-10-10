@@ -1,6 +1,7 @@
 from lib.database import CirnoDatabase
 from datetime import datetime
-from lib.utils import throttle
+from lib.utils import throttle, checkrank, check_picture, check_allowed_sources
+import re
 
 db = CirnoDatabase()
 
@@ -20,7 +21,8 @@ class CommandsDB(object):
             emotes_quantity = '%s' % (db.emotesquantity(args))
             ratio = int(emotes_quantity)*100/int(data)
             cirno.sendmsg('Количество сообщений от %s: %s. '
-                          'Из них только со смайлами: %s. Смайлов от общего числа сообщений: %s%%'
+                          'Из них только со смайлами: %s. '
+                          'Смайлов от общего числа сообщений: %s%%'
                           % (args, data, emotes_quantity, round(ratio, 2)))
 
     @throttle(5)
@@ -50,6 +52,26 @@ class CommandsDB(object):
             nick = data[1]
             quote = data[2]
             cirno.sendmsg('[%s] [%s] %s' % (timestamp, nick, quote))
+
+    @checkrank(2)
+    def _cmd_save(self, cirno, username, args):
+        if '<img class="chat-picture" src=' not in args:
+            cirno.sendmsg('%s: Укажите ссылку на изображение.' % username)
+            return
+
+        if not check_allowed_sources(cirno, args):
+            cirno.sendmsg('%s: Источник запрещен.' % username)
+
+        matches = re.search('src="([^"]+)"', args)
+        picture = matches.group(1)
+        if check_picture(picture):
+            pattern = re.compile('((https?://)?(i.imgur.com)+'
+                                 '([^\?&#])+?[.](?:jpg|jpeg|png|bmp|gif))')
+            if bool(pattern.match(picture)):
+                db.savepic(username, picture)
+                cirno.sendmsg('%s: Сохранила.' % username)
+        else:
+            cirno.sendmsg('%s: Изображение не найдено.' % username)
 
 
 def setup():

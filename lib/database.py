@@ -8,21 +8,24 @@ class CirnoDatabase(object):
         self.createtables()
 
     def createtables(self):
-        self.c.execute("CREATE TABLE IF NOT EXISTS users(uname TEXT,"
+        self.c.execute("CREATE TABLE IF NOT EXISTS users(uname TEXT, rank INTEGER,"
                        " PRIMARY KEY(uname))")
         self.c.execute("CREATE TABLE IF NOT EXISTS chat(timestamp INTEGER,"
                        " username TEXT, msg TEXT)")
         self.c.execute("CREATE TABLE IF NOT EXISTS pics(pictures TEXT)")
         self.c.execute("CREATE TABLE IF NOT EXISTS quotes(chatquote TEXT)")
         self.c.execute("CREATE TABLE IF NOT EXISTS version(key TEXT, "
-                       "value TEXT, PRIMARY KEY(key))")
+                       "value TEXT)")
         self.updatetables()
 
     def updatetables(self):
         if self.getversion() is None:
             self.c.execute("INSERT INTO version(key, value) VALUES (?, ?)",
                            ['dbversion', '1'])
-            self.c.execute("ALTER TABLE users ADD rank INTEGER")
+            self.conn.commit()
+        elif self.getversion() is '1':
+            self.c.execute("ALTER TABLE pics ADD added_by TEXT")
+            self.c.execute("UPDATE version SET value = '2' WHERE key = 'dbversion'")
             self.conn.commit()
 
     def getversion(self):
@@ -120,3 +123,7 @@ class CirnoDatabase(object):
             return list(r)[0]
         else:
             return None
+
+    def savepic(self, username, picture):
+        self.c.execute("INSERT OR REPLACE INTO pics VALUES(?, ?)", (picture, username))
+        self.conn.commit()

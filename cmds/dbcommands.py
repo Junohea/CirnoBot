@@ -1,6 +1,7 @@
 from lib.database import CirnoDatabase
 from datetime import datetime
-from lib.utils import throttle
+from lib.utils import throttle, checkrank, check_picture
+import re
 
 db = CirnoDatabase()
 
@@ -50,6 +51,23 @@ class CommandsDB(object):
             nick = data[1]
             quote = data[2]
             cirno.sendmsg('[%s] [%s] %s' % (timestamp, nick, quote))
+
+    @checkrank(2)
+    def _cmd_save(self, cirno, username, args):
+        if '<img class="chat-picture" src=' not in args:
+            cirno.sendmsg('%s: Укажите ссылку на изображение.' % username)
+            return
+        matches = re.search('src="([^"]+)"', args)
+        picture = matches.group(1)
+        if check_picture(picture):
+            pattern = re.compile('((https?://)?(i.imgur.com)+([^\?&#])+?[.](?:jpg|jpeg|png|bmp|gif))')
+            if bool(pattern.match(picture)):
+                   db.savepic(username, picture)
+                   cirno.sendmsg('%s: Сохранила.' % username)
+            else:
+                cirno.sendmsg('%s: Разрешено сохранять изображения только с imgur.' % username)
+        else:
+            cirno.sendmsg('%s: Изображение не найдено.' % username)
 
 
 def setup():

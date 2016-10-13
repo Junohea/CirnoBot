@@ -17,6 +17,7 @@ class Cirno(BaseNamespace):
         self.channelOpts = {}
         loadplugins()
         updatesettings(self)
+        self.allowed_sources = config['Misc']['allowed_sources']
         self.what = config['Misc']['errorpic']
         self.name = config['Server']['login']
         self.mod = config['Server']['modflair']

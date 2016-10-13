@@ -6,6 +6,7 @@ from socketIO_client import SocketIO, WebsocketTransport, TimeoutError, Connecti
 from socketIO_client.parsers import parse_packet_text
 import requests
 
+
 def patch_recv_packet(self):
     try:
         packet_text = self._connection.recv()
@@ -23,7 +24,9 @@ def patch_recv_packet(self):
         packet_text)
     yield engineIO_packet_type, engineIO_packet_data
 
+
 WebsocketTransport.recv_packet = patch_recv_packet
+
 
 class Connections(object):
     def __init__(self):
@@ -53,6 +56,7 @@ class Connections(object):
 def start():
     cirno = Connections()
     cirno.cirnoconnect()
+
 
 if __name__ == '__main__':
     start()

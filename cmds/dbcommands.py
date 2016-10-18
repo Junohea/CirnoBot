@@ -54,7 +54,7 @@ class CommandsDB(object):
 
     @checkrank(2)
     def _cmd_save(self, cirno, username, args):
-        if '<img class="chat-picture" src=' not in args:
+        if 'img class="chat-picture"' not in args:
             cirno.sendmsg('%s: Укажите ссылку на изображение.' % username)
             return
         matches = re.search('src="([^"]+)"', args)

@@ -49,6 +49,7 @@ def ruscommands():
         "алерт": commandslist['commands'].get("alert", None),
         "запрети": commandslist['commands'].get("deny", None),
         "разреши": commandslist['commands'].get("allow", None),
+        "сохрани": commandslist['commands'].get("save", None)
     }
     return ruscommandsdict
 

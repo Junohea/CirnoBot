@@ -18,7 +18,7 @@ Most commands mainly in Russian  ¯\\_(ツ)_/¯
 <li><code>!roll [range]</code> - Chooses a random number from the range given(optional).
 <li><code>!ask [question]</code> - Answers the question using a simple magic.
 <li><code>!who [query]</code> - Chooses a user randomly.
-<li><code>!uptime</code> - Sends the uptime of Cirno
+<li><code>!uptime [username]</code> - Sends the uptime of the user given. If no user given - sends yours uptime.
 <li><code>!quote</code> - Random quote from forismatic.com
 <li><code>!q</code> - Random quote from database (if you added list of quotes into a table in database)
 <li><code>!pic</code> - Random picture from database (if you added list of pictures into a table in database)

@@ -1,14 +1,28 @@
 from time import time
 from datetime import timedelta
 from random import choice, randint
-from lib.utils import checkrank
+from lib.utils import checkrank, throttle
+
 
 class BasicCommands(object):
-
+    @throttle(5)
     def _cmd_uptime(self, cirno, username, args):
-        uptime = time() - cirno.cirnostart
+        if len(args) > 0 and args in cirno.userdict.keys():
+            return self.uptime_by_username(cirno, username, args)
+        try:
+            cirno.userdict[username]['uptime']
+        except KeyError:
+            return cirno.sendmsg('%s: Не удалось получить время в сети.' % username)
+        uptime = time() - cirno.userdict[username]['uptime']
         uptime = '%s' % (timedelta(seconds=round(uptime)))
-        cirno.sendmsg('%s: В сети: %s' % (username, uptime))
+        locale = uptime.replace('days', 'дней') if 'days' in uptime else uptime.replace('day', 'день')
+        cirno.sendmsg('%s: Ваше время в сети: %s' % (username, locale))
+
+    def uptime_by_username(self, cirno, username, args):
+        uptime = time() - cirno.userdict[args]['uptime']
+        uptime = '%s' % (timedelta(seconds=round(uptime)))
+        locale = uptime.replace('days', 'дней') if 'days' in uptime else uptime.replace('day', 'день')
+        cirno.sendmsg('%s: %s находится в сети: %s' % (username, args, locale))
 
     def _cmd_pick(self, cirno, username, args):
         values = args.split(',')

@@ -65,7 +65,8 @@ class Cirno(BaseNamespace):
         afk = data['meta']['afk']
         self.userdict[name] = {
             'rank': rank,
-            'afk': afk
+            'afk': afk,
+            'uptime': int(time.time())
         }
         self.db.insertuser(name, rank)
         self.db.insertuserrank(name, rank)
@@ -76,7 +77,7 @@ class Cirno(BaseNamespace):
     def on_userLeave(self, data):
         del self.userdict[data['name']]
         rank_list = [value['rank'] for key, value in self.userdict.items() if key != 'Сырно']
-        if not any(i in [2,3,4,5,255] for i in rank_list):
+        if not any(i in [2, 3, 4, 5, 255] for i in rank_list):
             self.emit('setOptions', {'allow_voteskip': True})
 
     def on_userlist(self, data):

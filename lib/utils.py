@@ -29,8 +29,6 @@ def throttle(num):
                 cirno.cmdthrottle[username] = time.time()
                 if data >= num:
                     return func(self, cirno, username, args)
-                else:
-                    return cirno.sendmsg('%s: Умерьте пыл.' % username)
 
         return wrapper
 

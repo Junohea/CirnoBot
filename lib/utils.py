@@ -3,6 +3,9 @@ import time
 import codecs
 import requests
 import json
+from bs4 import BeautifulSoup
+from requests.models import PreparedRequest
+import requests.exceptions
 
 
 def checkrank(num):
@@ -43,8 +46,9 @@ def filterchat(msg):
     msg = re.sub("&quot;", "\"", msg)
     msg = re.sub("&#40;", "(", msg)
     msg = re.sub("&#41;", ")", msg)
-    if 'img class="chat-picture"' not in msg:
-        msg = re.sub("(<([^>]+)>)", "", msg)
+    if 'img class="chat-picture"' in msg:
+        soup = BeautifulSoup(msg)
+        msg = msg.split()[0] + " " + soup.findAll('img')[0]['src']
     msg = re.sub("^[ \t]+", "", msg)
     return msg
 
@@ -69,6 +73,15 @@ def check_allowed_sources(cirno, source):
     if domain in cirno.allowed_sources:
         return True
     else:
+        return False
+
+
+def check_url(url):
+    prepared_request = PreparedRequest()
+    try:
+        prepared_request.prepare_url(url, None)
+        return True
+    except requests.exceptions.MissingSchema:
         return False
 
 

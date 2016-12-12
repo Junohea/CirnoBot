@@ -47,7 +47,7 @@ def filterchat(msg):
     msg = re.sub("&#40;", "(", msg)
     msg = re.sub("&#41;", ")", msg)
     if 'img class="chat-picture"' in msg:
-        soup = BeautifulSoup(msg)
+        soup = BeautifulSoup(msg, "html.parser")
         msg = msg.split()[0] + " " + soup.findAll('img')[0]['src']
     msg = re.sub("^[ \t]+", "", msg)
     return msg

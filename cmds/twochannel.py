@@ -6,42 +6,41 @@ from random import choice
 class Twochannel(object):
 
     def boardlist(self):
-        getboards = 'http://2ch.hk/makaba/mobile.fcgi?task=get_boards'
+        getboards = 'https://2ch.hk/makaba/mobile.fcgi?task=get_boards'
         try:
-            data = requests.post(getboards)
+            data = requests.get(getboards).json()
             boards = ['Политика', 'Пользовательские', 'Тематика',
                       'Техника и софт', 'Разное', 'Творчество',
                       'Игры', 'Японская культура', 'Взрослым']
         except Exception:
             return
-        res = list(map(lambda x: data.json(), getboards))
-        result = [x['id'] for i in boards for x in res[0][i]]
+        result = [x['id'] for i in boards for x in data[boards[boards.index(i)]]]
         return result
 
     def managethreads(self, board):
-        inboard = 'http://2ch.hk/%s/index.json' % board
-        if board in self.boardlist():
-            threads = requests.get(inboard).json()['threads']
-            result = [i['thread_num'] for i in threads]
-            return result
+        inboard = 'https://2ch.hk/%s/index.json' % board
+        threads = requests.get(inboard).json()['threads']
+        result = [i['thread_num'] for i in threads]
+        return result
 
-    def serfthread(self, board):
+    def serfthread(self, board, managethreads):
         try:
-            threadnum = self.managethreads(board)
-            inthread = 'http://2ch.hk/%s/res/%s.json' \
-                       % (board, choice(threadnum))
+            inthread = 'https://2ch.hk/%s/res/%s.json' \
+                       % (board, choice(managethreads))
             getthread = requests.get(inthread).json()['threads'][0]['posts']
+
         except Exception:
             return
         return getthread
 
     def get2chpic(self, board):
-        if self.managethreads(board) is None:
+        managethreads = self.managethreads(board)
+        if managethreads is None:
             return
         try:
-            inthread = self.serfthread(board)
-            result = ['http://2ch.hk/%s/%s' %
-                      (board, i['files'][0]['path']) for
+            inthread = self.serfthread(board, managethreads)
+            result = ['https://2ch.hk%s' %
+                      (i['files'][0]['path']) for
                       i in inthread if len(i['files']) != 0 and
                       i['files'][0]['type'] in [1, 2]]
         except Exception:

@@ -1,7 +1,11 @@
 import re
 import time
 import codecs
+import requests
 import json
+from bs4 import BeautifulSoup
+from requests.models import PreparedRequest
+import requests.exceptions
 
 
 def checkrank(num):
@@ -10,7 +14,9 @@ def checkrank(num):
             rank = cirno.userdict[username]['rank']
             if rank >= num:
                 return func(self, cirno, username, args)
+
         return wrapper
+
     return getrank
 
 
@@ -26,9 +32,9 @@ def throttle(num):
                 cirno.cmdthrottle[username] = time.time()
                 if data >= num:
                     return func(self, cirno, username, args)
-                else:
-                    return cirno.sendmsg('%s: Умерьте пыл.' % username)
+
         return wrapper
+
     return counter
 
 
@@ -40,7 +46,9 @@ def filterchat(msg):
     msg = re.sub("&quot;", "\"", msg)
     msg = re.sub("&#40;", "(", msg)
     msg = re.sub("&#41;", ")", msg)
-    msg = re.sub("(<([^>]+)>)", "", msg)
+    if 'img class="chat-picture"' in msg:
+        soup = BeautifulSoup(msg, "html.parser")
+        msg = msg.split()[0] + " " + soup.findAll('img')[0]['src']
     msg = re.sub("^[ \t]+", "", msg)
     return msg
 
@@ -50,6 +58,31 @@ def updatesettings(cirno):
         cirno.settings = readsettings()
     except:
         writesettings(cirno)
+
+
+def check_picture(pic):
+    r = requests.get(pic)
+    if r.url == "https://i.imgur.com/removed.png" or r.status_code == 404:
+        return False
+    else:
+        return True
+
+
+def check_allowed_sources(cirno, source):
+    domain = re.search('src="(https?://)?(.+?)(\/.*)"', source).group(2)
+    if domain in cirno.allowed_sources:
+        return True
+    else:
+        return False
+
+
+def check_url(url):
+    prepared_request = PreparedRequest()
+    try:
+        prepared_request.prepare_url(url, None)
+        return True
+    except requests.exceptions.MissingSchema:
+        return False
 
 
 def writesettings(cirno):

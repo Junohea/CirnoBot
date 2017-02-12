@@ -1,6 +1,8 @@
 import re
 import time
 import codecs
+import xml
+
 import requests
 import json
 from bs4 import BeautifulSoup
@@ -47,10 +49,24 @@ def filterchat(msg):
     msg = re.sub("&#40;", "(", msg)
     msg = re.sub("&#41;", ")", msg)
     if 'img class="chat-picture"' in msg:
-        soup = BeautifulSoup(msg, "html.parser")
-        msg = msg.split()[0] + " " + soup.findAll('img')[0]['src']
+        return filter_images(msg)
     msg = re.sub("^[ \t]+", "", msg)
+    msg = remove_tags(msg)
     return msg
+
+
+def filter_images(msg):
+    try:
+        cmd = msg.split(' ')[0]
+        matches = re.search('src="([^"]+)"', msg)
+        return "%s %s" % (cmd, matches.group(1))
+    except:
+        return msg
+
+
+def remove_tags(msg):
+    tag = re.compile('<[^>]+>')
+    return tag.sub('', msg)
 
 
 def updatesettings(cirno):

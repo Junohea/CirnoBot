@@ -1,7 +1,7 @@
 from lib.cirno import Cirno
 from config import config
 from socket import error as SocketError
-from websocket import SSLError, WebSocketTimeoutException
+from websocket import WebSocketTimeoutException
 from socketIO_client import SocketIO, WebsocketTransport, TimeoutError, ConnectionError
 from socketIO_client.parsers import parse_packet_text
 import requests
@@ -11,8 +11,6 @@ def patch_recv_packet(self):
         packet_text = self._connection.recv()
     except WebSocketTimeoutException as e:
         raise TimeoutError('recv timed out (%s)' % e)
-    except SSLError as e:
-        raise ConnectionError('recv disconnected by SSL (%s)' % e)
     except WebSocketConnectionClosedException as e:
         raise ConnectionError('recv disconnected (%s)' % e)
     except SocketError as e:

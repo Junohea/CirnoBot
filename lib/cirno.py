@@ -25,9 +25,12 @@ class Cirno(BaseNamespace):
         self.disallowed4ch = config['API']['disallow_4chan_boards'].split()
 
     def on_chatMsg(self, data):
+        timestamp = data['time']
+        if timestamp < self.starttime:
+            return
+
         username = data['username']
         msg = data['msg']
-        timestamp = data['time']
         meta = data['meta']
 
         if username == '[server]':
@@ -35,9 +38,6 @@ class Cirno(BaseNamespace):
 
         msg = filterchat(msg)
         if msg is None:
-            return
-
-        if timestamp < self.starttime:
             return
 
         if msg.startswith('!') \

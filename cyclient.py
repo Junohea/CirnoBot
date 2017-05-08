@@ -36,14 +36,14 @@ class Connections(object):
         self.password = config['Server']['password']
 
     def getsocketport(self):
-        url = 'http://%s/socketconfig/%s.json' % (self.host, self.channel)
+        url = 'https://%s/socketconfig/%s.json' % (self.host, self.channel)
         req = requests.get(url).json()['servers']
-        serv = [i['url'] for i in req if i['secure'] is False][0]
+        serv = [i['url'] for i in req if i['secure'] is True][0]
         port = int(serv[serv.rindex(':') + 1:])
         return port
 
     def cirnoconnect(self):
-        with SocketIO(self.host, self.getsocketport(), Cirno) as socketIO:
+        with SocketIO('https://' + self.host, self.getsocketport(), Cirno, verify=False) as socketIO:
             socketIO.emit('initChannelCallbacks')
             socketIO.emit('joinChannel', {'name': self.channel,
                                           'pw': self.channelpw})

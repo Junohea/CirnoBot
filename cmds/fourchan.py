@@ -28,7 +28,7 @@ class Fourchan(object):
         if threads is None:
             return
         inthread = 'https://a.4cdn.org/%s/thread/{0}.json' % board
-        main = 'https://is.4chan.org/%s/' % board
+        main = 'http://i.4cdn.org/%s/' % board
         posts = requests.get(inthread.format(choice(threads))).json()['posts']
         allowext = {'.jpg', '.png', '.gif'}
         result = ['%s%s%s' % (main, post['tim'], post['ext']) for post in posts

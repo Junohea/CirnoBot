@@ -33,15 +33,17 @@ class Connections(object):
         self.name = config['Server']['login']
         self.password = config['Server']['password']
 
-    def getsocketport(self):
+    def get_socket_config(self):
         url = 'https://%s/socketconfig/%s.json' % (self.host, self.channel)
         req = requests.get(url).json()['servers']
         serv = [i['url'] for i in req if i['secure'] is True][0]
-        port = int(serv[serv.rindex(':') + 1:])
-        return port
+        return serv.rsplit(':', 1)
 
     def cirnoconnect(self):
-        with SocketIO('https://' + self.host, self.getsocketport(), Cirno, verify=False) as socketIO:
+        socket_conf = self.get_socket_config()
+        host = socket_conf[0]
+        port = socket_conf[1]
+        with SocketIO(host, port, Cirno, verify=False) as socketIO:
             socketIO.emit('initChannelCallbacks')
             socketIO.emit('joinChannel', {'name': self.channel,
                                           'pw': self.channelpw})

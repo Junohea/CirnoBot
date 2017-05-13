@@ -9,15 +9,15 @@ class Hit(object):
         user = args
         if user not in cirno.userdict.keys() \
                 or user == cirno.name:
-            cirno.sendmsg('%s: Указанный пользователь не найден.' % username)
+            cirno.sendmsg('%s: The specified user was not found.' % username)
         else:
-            variants = ['/me пинает {}',
-                        '/me отказывается пинать {} и дает ему печеньку.',
-                        'Я боюсь пинать {}! Он же меня прибьет потом :cry:',
-                        '/me замахнулась,'
-                        ' но не справилась с управлением и упала',
-                        '/me решает, что пинка недостаточно и избивает {}',
-                        'Разве можно пинать такую няшу, как {}?'
+            variants = ['/me kicks {}',
+                        '/me refuses to kick {} and gives him a cookie. /cookie',
+                        "I'm afraid to kick {}! /o-o",
+                        '/me swung(?),'
+                        ' But failed to manage and fell(?)',
+                        '/me Decides that a kick is not enough and gets ready to give {} a wood shampoo',
+                        'Is it possible to kick a cunt like {}?'
                         ]
             result = choice(variants).format(user)
             cirno.sendmsg(result)

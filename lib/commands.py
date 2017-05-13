@@ -24,32 +24,32 @@ def loadplugins():
     return triggers
 
 
-def ruscommands():
+def altcommands():
     commandslist = loadplugins()
     ruscommandsdict = {
-        "выбор": commandslist['commands'].get("pick", None),
-        "ролл": commandslist['commands'].get("roll", None),
-        "спросить": commandslist['commands'].get("ask", None),
-        "кто": commandslist['commands'].get("who", None),
-        "аптайм": commandslist['commands'].get("uptime", None),
-        "цитата": commandslist['commands'].get("quote", None),
-        "погода": commandslist['commands'].get("weather", None),
-        "курс": commandslist['commands'].get("rate", None),
-        "переведи": commandslist['commands'].get("translate", None),
-        "добавь": commandslist['commands'].get("add", None),
-        "рандом": commandslist['commands'].get("random", None),
-        "статистика": commandslist['commands'].get("stat", None),
-        "пни": commandslist['commands'].get("hit", None),
-        "загугли": commandslist['commands'].get("search", None),
+        "select": commandslist['commands'].get("pick", None),
+        "roll": commandslist['commands'].get("roll", None),
+        "8ball": commandslist['commands'].get("ask", None),
+        "whois": commandslist['commands'].get("who", None),
+        "online": commandslist['commands'].get("uptime", None),
+        "quoth": commandslist['commands'].get("quote", None),
+        "weather": commandslist['commands'].get("weather", None),
+        "rate": commandslist['commands'].get("rate", None),
+        "translate": commandslist['commands'].get("translate", None),
+        "addit": commandslist['commands'].get("add", None),
+        "spork": commandslist['commands'].get("random", None),
+        "statistic": commandslist['commands'].get("stat", None),
+        "hit": commandslist['commands'].get("hit", None),
+        "query": commandslist['commands'].get("search", None),
         "q": commandslist['commands'].get("q", None),
-        "пик": commandslist['commands'].get("pic", None),
-        "booru": commandslist['commands'].get("booru", None),
-        "4chan": commandslist['commands'].get("4chan", None),
-        "2ch": commandslist['commands'].get("2ch", None),
-        "алерт": commandslist['commands'].get("alert", None),
-        "запрети": commandslist['commands'].get("deny", None),
-        "разреши": commandslist['commands'].get("allow", None),
-        "сохрани": commandslist['commands'].get("save", None)
+        "picture": commandslist['commands'].get("pic", None),
+        "gelbooru": commandslist['commands'].get("booru", None),
+        "4ch": commandslist['commands'].get("4chan", None),
+        "2chan": commandslist['commands'].get("2ch", None),
+        "alert": commandslist['commands'].get("alert", None),
+        "deny": commandslist['commands'].get("deny", None),
+        "allow": commandslist['commands'].get("allow", None),
+        "save": commandslist['commands'].get("save", None)
     }
     return ruscommandsdict
 
@@ -59,8 +59,8 @@ def handle(cirno, username, msg):
     splice = msg.split(' ')
     command = splice.pop(0)[1:]
     args = ' '.join("%s" % x for x in splice).strip()
-    if command in ruscommands().keys():
-        method = ruscommands().get(command, None)
+    if command in altcommands().keys():
+        method = altcommands().get(command, None)
     else:
         method = commandslist['commands'].get(command, None)
     if method:

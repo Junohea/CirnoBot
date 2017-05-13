@@ -9,7 +9,7 @@ class Alert(object):
         afklist = [i[0] for i in data]
         result = ' '.join(afklist)
         if not afklist:
-            cirno.sendmsg('%s: Все на месте!' % username)
+            cirno.sendmsg('%s: Everything is in place(?)!' % username)
         elif args:
             cirno.sendmsg('%s %s ' % (args, result))
         else:

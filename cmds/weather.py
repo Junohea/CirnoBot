@@ -15,13 +15,13 @@ class Weather(object):
                 data = requests.get(url).json()
                 desc = data['weather'][0]['description'].capitalize()
                 temp = '%s' % round(data['main']['temp'])
-                result = 'Погода в городе %s: %s %s°C' \
+                result = 'Weather in the city %s: %s %s°C' \
                          % (city.capitalize(), desc, temp)
             except Exception:
                 return
             return result
         else:
-            return 'Неверно указан город'
+            return 'Invalid city'
 
     def forecast(self, city):
         url = 'http://api.openweathermap.org/data/2.5/forecast/daily?' \
@@ -38,19 +38,19 @@ class Weather(object):
                 return
             return tomorrow, aftertmrw
         else:
-            return 'Неверно указан город'
+            return 'Invalid city'
 
     @throttle(5)
     def _cmd_weather(self, cirno, username, args):
         if not args:
-            cirno.sendmsg('%s: Укажите город!' % username)
+            cirno.sendmsg('%s: provide a city!' % username)
             return
         data = args.split()
         city = data[0]
         (tomorrow, aftertomorrow) = self.forecast(city)
-        tomorrow_res = 'Погода в городе %s на завтра: %s°C' \
+        tomorrow_res = 'Weather in %s for tomorrow: %s°C' \
             % (city.capitalize(), tomorrow)
-        aftertomorrow_res = 'Погода в городе %s на послезавтра: ' \
+        aftertomorrow_res = 'Weather in %s for the day after tomorrow: ' \
             '%s°C' % (city.capitalize(), aftertomorrow)
         if self.weatherdata(city) and len(data) < 2:
             cirno.sendmsg('%s: %s' % (username, self.weatherdata(city)))

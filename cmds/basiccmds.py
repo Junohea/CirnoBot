@@ -12,24 +12,24 @@ class BasicCommands(object):
         try:
             cirno.userdict[username]['uptime']
         except KeyError:
-            return cirno.sendmsg('%s: Не удалось получить время в сети.' % username)
+            return cirno.sendmsg('%s: Failed to get network time(?).' % username)
         uptime = time() - cirno.userdict[username]['uptime']
         uptime = '%s' % (timedelta(seconds=round(uptime)))
         locale = uptime.replace('days', 'дней') if 'days' in uptime else uptime.replace('day', 'день')
-        cirno.sendmsg('%s: Ваше время в сети: %s' % (username, locale))
+        cirno.sendmsg('%s: Your time: %s' % (username, locale))
 
     def uptime_by_username(self, cirno, username, args):
         uptime = time() - cirno.userdict[args]['uptime']
         uptime = '%s' % (timedelta(seconds=round(uptime)))
         locale = uptime.replace('days', 'дней') if 'days' in uptime else uptime.replace('day', 'день')
-        cirno.sendmsg('%s: %s находится в сети: %s' % (username, args, locale))
+        cirno.sendmsg('%s: %s Is online: %s' % (username, args, locale))
 
     def _cmd_pick(self, cirno, username, args):
         values = args.split(',')
         if len(values) > 1:
             cirno.sendmsg('%s: %s' % (username, choice(values)))
         else:
-            cirno.sendmsg('%s: Укажите не менее двух вариантов.' % username)
+            cirno.sendmsg('%s: Please specify at least two options.' % username)
 
     def _cmd_roll(self, cirno, username, args):
         randoften = randint(0, 10)
@@ -41,16 +41,16 @@ class BasicCommands(object):
 
     def _cmd_ask(self, cirno, username, args):
         if not args:
-            cirno.sendmsg('%s: Введите запрос!' % username)
+            cirno.sendmsg('%s: Ask your question!' % username)
         else:
-            answers = ['Определенно да', 'Да', 'Вероятно', 'Ни шанса',
-                       'Определенно нет', 'Вероятность мала', 'Нет',
-                       'Это не важно', 'Не стоит вскрывать эту тему']
+            answers = ['Definitely yes', 'Yes', 'Probably', 'No chance',
+                       'Definitely not', 'The probability is small', 'No',
+                       "It doesn't matter", 'Do not open this topic(?)']
             cirno.sendmsg('%s: %s' % (username, choice(answers)))
 
     def _cmd_who(self, cirno, username, args):
         if not args:
-            cirno.sendmsg('%s: Введите запрос!' % username)
+            cirno.sendmsg('%s: Enter the query!' % username)
         else:
             users = list(cirno.userdict.keys())
             args = args.replace('?', '') if args.endswith('?') else args

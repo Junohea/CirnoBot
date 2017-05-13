@@ -10,17 +10,17 @@ class CommandsDB(object):
     @throttle(5)
     def _cmd_stat(self, cirno, username, args):
         if not args:
-            cirno.sendmsg('%s: Укажите пользователя!' % username)
+            cirno.sendmsg('%s: Specify a user!' % username)
             return
         data = '%s' % (db.getquantity(args))
         if int(data) < 1:
-            cirno.sendmsg('%s: Не нашла сообщений от такого пользователя!'
+            cirno.sendmsg('%s: No messages from this user were found!'
                           % username)
         else:
             emotes_quantity = '%s' % (db.emotesquantity(args))
             ratio = int(emotes_quantity) * 100 / int(data)
-            cirno.sendmsg('Количество сообщений от %s: %s. '
-                          'Из них только со смайлами: %s. Смайлов от общего числа сообщений: %s%%'
+            cirno.sendmsg('Number of messages from %s: %s. '
+                          'Of these, only with smiles(?): %s. Smile from the total number of messages(?): %s%%'
                           % (args, data, emotes_quantity, round(ratio, 2)))
 
     @throttle(5)
@@ -29,7 +29,7 @@ class CommandsDB(object):
         if randquot:
             cirno.sendmsg('%s: %s' % (username, randquot))
         else:
-            cirno.sendmsg('%s: Ничего не найдено!' % username)
+            cirno.sendmsg('%s: Nothing found!' % username)
 
     @throttle(5)
     def _cmd_pic(self, cirno, username, args):
@@ -37,13 +37,13 @@ class CommandsDB(object):
         if randpic:
             cirno.sendmsg('%s: %s' % (username, randpic))
         else:
-            cirno.sendmsg('%s: Ничего не найдено!' % username)
+            cirno.sendmsg('%s: Nothing found!' % username)
 
     @throttle(5)
     def _cmd_random(self, cirno, username, args):
         data = db.getrandom(args)
         if not data:
-            cirno.sendmsg('%s: Не нашла такого пользователя!' % username)
+            cirno.sendmsg("%s: I didn't find this user!" % username)
         else:
             timestamp = datetime.fromtimestamp(data[0] / 1000) \
                 .strftime('%d.%m.%Y %H:%M:%S')
@@ -54,18 +54,18 @@ class CommandsDB(object):
     @checkrank(2)
     def _cmd_save(self, cirno, username, args):
         if check_url(args) is False:
-            cirno.sendmsg('%s: Укажите ссылку на изображение.' % username)
+            cirno.sendmsg('%s: Please provide a link to the image.' % username)
             return
 
         if check_picture(args):
             pattern = re.compile('((https?://)?(i.imgur.com)+([^\?&#])+?[.](?:jpg|jpeg|png|bmp|gif))')
             if bool(pattern.match(args)):
                 db.savepic(username, args)
-                cirno.sendmsg('%s: Сохранила.' % username)
+                cirno.sendmsg('%s: Saving.' % username)
             else:
-                cirno.sendmsg('%s: Разрешено сохранять изображения только с imgur.' % username)
+                cirno.sendmsg('%s: Only allowed to save from imgur.' % username)
         else:
-            cirno.sendmsg('%s: Изображение не найдено.' % username)
+            cirno.sendmsg('%s: Image not found.' % username)
 
 
 def setup():

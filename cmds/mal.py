@@ -44,7 +44,7 @@ class MyAnimeList(object):
                      % (args, score, episode, start, end)
             cirno.sendmsg("%s: %s" % (username, result))
         else:
-            cirno.sendmsg("%s: Не нашла такого тайтла в нашем MAL." % username)
+            cirno.sendmsg("%s: I didn't find this title in our MAL." % username)
 
 
 def setup():

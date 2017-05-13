@@ -5,6 +5,9 @@ from websocket import WebSocketTimeoutException
 from socketIO_client import SocketIO, WebsocketTransport, TimeoutError, ConnectionError
 from socketIO_client.parsers import parse_packet_text
 import requests
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 
 def patch_recv_packet(self):

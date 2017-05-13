@@ -9,7 +9,7 @@ class Quotes(object):
             data = requests.get('http://api.forismatic.com/api/'
                                 '1.0/?method=getQuote'
                                 '&format=json&'
-                                'lang=ru').json()['quoteText']
+                                'lang=en').json()['quoteText']
         except Exception:
             return
         return data

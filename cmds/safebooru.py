@@ -22,7 +22,7 @@ class Safebooru(object):
         if result:
             cirno.sendmsg('%s: %s' % (username, result))
         else:
-            cirno.sendmsg('%s: Ничего не найдено!' % username)
+            cirno.sendmsg('%s: Nothing found!' % username)
 
 
 def setup():

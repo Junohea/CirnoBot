@@ -11,7 +11,7 @@ class Translate(object):
         try:
             data = requests.get(
                 'https://translate.yandex.net/api/v1.5/tr.json/translate?'
-                'lang=ru&text=%s&key=%s' % (query, KEY)).json()['text']
+                'lang=en&text=%s&key=%s' % (query, KEY)).json()['text']
         except Exception:
             return
         return ''.join(data)

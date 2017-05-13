@@ -19,7 +19,7 @@ class GoogleSearch(object):
     @throttle(5)
     def _cmd_search(self, cirno, username, query):
         if len(query) == 0:
-            cirno.sendmsg('%s: Введите запрос!' % username)
+            cirno.sendmsg('%s: Enter a query!' % username)
             return
         data = self.search(query)
         if data:
